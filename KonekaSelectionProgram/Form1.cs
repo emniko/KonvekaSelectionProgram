@@ -17,11 +17,6 @@ namespace KonekaSelectionProgram
         {
             InitializeComponent();
         }
-
-        private void label26_Click(object sender, EventArgs e)
-        {
-
-        }
         private void FillCombox()
         {
         }
@@ -36,7 +31,6 @@ namespace KonekaSelectionProgram
 
 
         }
-
         private void cmb_ConvectorsInstallationType_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Type : Depends upon Installation
@@ -66,7 +60,6 @@ namespace KonekaSelectionProgram
             }
 
         }
-
         private void cmb_Type_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Model : Depends Upon Type
@@ -74,21 +67,11 @@ namespace KonekaSelectionProgram
             Main.fillCombo(cmb_ConvectorsModel, "Model", "ModelName", "ModelID", "TypeID ="+cmb_Type.SelectedValue+"");
 
         }
-
-        private void cmb_ConvectorsModel_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cmb_GrillsMaterialColor_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
         private void cmb_GrillsType_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Grilles Color : Depends upon Grill
             cmb_GrillsMaterialColor.Text = "";
-            Main.fillCombo(cmb_GrillsMaterialColor, "GrillColor", "GrillColor", "ID", "GrillID = " + cmb_GrillsType.SelectedValue + "");
+            Main.fillCombo(cmb_GrillsMaterialColor, "GrillMaterial", "Type", "ID", "GrillID = " + cmb_GrillsType.SelectedValue + "");
 
         }
         #region OnlyDigits
@@ -206,13 +189,36 @@ namespace KonekaSelectionProgram
         }
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
+        private void txt_Incoming_Heating_TextChanged(object sender, EventArgs e)
         {
-            // lab_HeatOutput.Text= AccessDb.ScalarQuery("Select HeatOutput from Convertors where Model ='" + cmb_ConvectorsModel.Text + "' and width = '" + txt_Width.Text + "' and height = '" + txt_Height.Text + "' and length = '" + txt_Length.Text + "'");
-            //  lab_Formula.Text = AccessDb.ScalarQuery("Select Formula from Convertors where Model ='" + cmb_ConvectorsModel.Text + "' and width = '" + txt_Width.Text + "' and height = '" + txt_Height.Text + "' and length = '" + txt_Length.Text + "'");
-            // lab_Formula.Text = AccessDb.ScalarQuery("Select No from Convertors where Model ='" + cmb_ConvectorsModel.Text + "'");// and width = '" + txt_Width.Text + "' and height = '" + txt_Height.Text + "' and length = '" + txt_Length.Text + "'");
-            Search.GetRecord("sc", 60, 15, 8);
-         //   lab_Formula.Text = AccessDb.ScalarQuery("SELECT Top 1 ID FROM Convertors where Model ='SC'");
+            changeInTemerature();
+        }
+        private void txt_Outgoing_Heating_TextChanged(object sender, EventArgs e)
+        {
+            changeInTemerature();
+        }
+
+        private void txt_Room_Heating_TextChanged(object sender, EventArgs e)
+        {
+            changeInTemerature();
+        }
+        private bool changeInTemerature()
+        {
+            double IncommingTemp = 0, OutgoingTemp = 0, RoomTeamperature = 0, ChangeInTemperature = 0;
+            bool val = false;
+            if (double.TryParse(txt_Incoming_Heating.Text, out IncommingTemp))
+            {
+                if (double.TryParse(txt_Outgoing_Heating.Text, out OutgoingTemp))
+                {
+                    if (double.TryParse(txt_Room_Heating.Text, out RoomTeamperature))
+                    {
+                        ChangeInTemperature = (IncommingTemp + OutgoingTemp) / 2 - RoomTeamperature;
+                        txt_DeltaT_Heating.Text = ChangeInTemperature.ToString();
+                        val = true;
+                    }
+                }
+            }
+            return val;
         }
     }
 }

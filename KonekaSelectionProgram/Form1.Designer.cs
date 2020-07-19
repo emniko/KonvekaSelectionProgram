@@ -57,11 +57,8 @@
             this.txt_AccessoryQuantity = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txt_Length = new System.Windows.Forms.TextBox();
-            this.cmb_Length = new SergeUtils.EasyCompletionComboBox();
-            this.cmb_Width = new SergeUtils.EasyCompletionComboBox();
             this.txt_Width = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.cmb_Height = new SergeUtils.EasyCompletionComboBox();
             this.txt_Height = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.txt_Color = new System.Windows.Forms.TextBox();
@@ -297,7 +294,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(21, 228);
+            this.label3.Location = new System.Drawing.Point(25, 228);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(151, 21);
@@ -308,7 +305,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(131, 270);
+            this.label4.Location = new System.Drawing.Point(123, 270);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 21);
@@ -319,7 +316,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(111, 311);
+            this.label5.Location = new System.Drawing.Point(110, 311);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(66, 21);
@@ -330,7 +327,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(36, 450);
+            this.label6.Location = new System.Drawing.Point(43, 450);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(133, 21);
@@ -341,7 +338,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(131, 409);
+            this.label7.Location = new System.Drawing.Point(123, 409);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 21);
@@ -387,7 +384,6 @@
             this.cmb_ConvectorsModel.Name = "cmb_ConvectorsModel";
             this.cmb_ConvectorsModel.Size = new System.Drawing.Size(560, 24);
             this.cmb_ConvectorsModel.TabIndex = 23;
-            this.cmb_ConvectorsModel.SelectedIndexChanged += new System.EventHandler(this.cmb_ConvectorsModel_SelectedIndexChanged);
             // 
             // cmb_GrillsMaterialColor
             // 
@@ -397,7 +393,6 @@
             this.cmb_GrillsMaterialColor.Name = "cmb_GrillsMaterialColor";
             this.cmb_GrillsMaterialColor.Size = new System.Drawing.Size(560, 24);
             this.cmb_GrillsMaterialColor.TabIndex = 25;
-            this.cmb_GrillsMaterialColor.SelectedIndexChanged += new System.EventHandler(this.cmb_GrillsMaterialColor_SelectedIndexChanged);
             // 
             // cmb_GrillsType
             // 
@@ -468,30 +463,6 @@
             this.txt_Length.TabIndex = 31;
             this.txt_Length.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Length_KeyPress);
             // 
-            // cmb_Length
-            // 
-            this.cmb_Length.FormattingEnabled = true;
-            this.cmb_Length.Items.AddRange(new object[] {
-            "Equal",
-            "Equal or Less"});
-            this.cmb_Length.Location = new System.Drawing.Point(1309, 222);
-            this.cmb_Length.Margin = new System.Windows.Forms.Padding(4);
-            this.cmb_Length.Name = "cmb_Length";
-            this.cmb_Length.Size = new System.Drawing.Size(172, 24);
-            this.cmb_Length.TabIndex = 32;
-            // 
-            // cmb_Width
-            // 
-            this.cmb_Width.FormattingEnabled = true;
-            this.cmb_Width.Items.AddRange(new object[] {
-            "Equal",
-            "Equal or Less"});
-            this.cmb_Width.Location = new System.Drawing.Point(1309, 272);
-            this.cmb_Width.Margin = new System.Windows.Forms.Padding(4);
-            this.cmb_Width.Name = "cmb_Width";
-            this.cmb_Width.Size = new System.Drawing.Size(172, 24);
-            this.cmb_Width.TabIndex = 35;
-            // 
             // txt_Width
             // 
             this.txt_Width.Location = new System.Drawing.Point(1043, 273);
@@ -511,18 +482,6 @@
             this.label11.Size = new System.Drawing.Size(99, 21);
             this.label11.TabIndex = 33;
             this.label11.Text = "Width, cm";
-            // 
-            // cmb_Height
-            // 
-            this.cmb_Height.FormattingEnabled = true;
-            this.cmb_Height.Items.AddRange(new object[] {
-            "Equal",
-            "Equal or Less"});
-            this.cmb_Height.Location = new System.Drawing.Point(1309, 314);
-            this.cmb_Height.Margin = new System.Windows.Forms.Padding(4);
-            this.cmb_Height.Name = "cmb_Height";
-            this.cmb_Height.Size = new System.Drawing.Size(172, 24);
-            this.cmb_Height.TabIndex = 38;
             // 
             // txt_Height
             // 
@@ -631,6 +590,7 @@
             this.txt_Room_Heating.Name = "txt_Room_Heating";
             this.txt_Room_Heating.Size = new System.Drawing.Size(129, 22);
             this.txt_Room_Heating.TabIndex = 50;
+            this.txt_Room_Heating.TextChanged += new System.EventHandler(this.txt_Room_Heating_TextChanged);
             this.txt_Room_Heating.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Room_Heating_KeyPress);
             // 
             // label17
@@ -651,6 +611,7 @@
             this.txt_Outgoing_Heating.Name = "txt_Outgoing_Heating";
             this.txt_Outgoing_Heating.Size = new System.Drawing.Size(129, 22);
             this.txt_Outgoing_Heating.TabIndex = 48;
+            this.txt_Outgoing_Heating.TextChanged += new System.EventHandler(this.txt_Outgoing_Heating_TextChanged);
             this.txt_Outgoing_Heating.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Outgoing_Heating_KeyPress);
             // 
             // label18
@@ -671,6 +632,7 @@
             this.txt_Incoming_Heating.Name = "txt_Incoming_Heating";
             this.txt_Incoming_Heating.Size = new System.Drawing.Size(129, 22);
             this.txt_Incoming_Heating.TabIndex = 46;
+            this.txt_Incoming_Heating.TextChanged += new System.EventHandler(this.txt_Incoming_Heating_TextChanged);
             this.txt_Incoming_Heating.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Incoming_Heating_KeyPress);
             // 
             // label19
@@ -872,6 +834,7 @@
             // 
             // dgv_Suggestion
             // 
+            this.dgv_Suggestion.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Suggestion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Suggestion.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.No,
@@ -887,10 +850,10 @@
             this.CoolingDifferencePercent,
             this.Price,
             this.Quantity});
-            this.dgv_Suggestion.Location = new System.Drawing.Point(27, 684);
+            this.dgv_Suggestion.Location = new System.Drawing.Point(26, 676);
             this.dgv_Suggestion.Margin = new System.Windows.Forms.Padding(4);
             this.dgv_Suggestion.Name = "dgv_Suggestion";
-            this.dgv_Suggestion.Size = new System.Drawing.Size(1992, 98);
+            this.dgv_Suggestion.Size = new System.Drawing.Size(1992, 127);
             this.dgv_Suggestion.TabIndex = 68;
             // 
             // No
@@ -960,6 +923,7 @@
             // 
             // dgv_Offers
             // 
+            this.dgv_Offers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Offers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Offers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -978,7 +942,7 @@
             this.dgv_Offers.Location = new System.Drawing.Point(32, 857);
             this.dgv_Offers.Margin = new System.Windows.Forms.Padding(4);
             this.dgv_Offers.Name = "dgv_Offers";
-            this.dgv_Offers.Size = new System.Drawing.Size(2283, 81);
+            this.dgv_Offers.Size = new System.Drawing.Size(2283, 168);
             this.dgv_Offers.TabIndex = 69;
             // 
             // dataGridViewTextBoxColumn1
@@ -1072,7 +1036,6 @@
             this.button1.TabIndex = 71;
             this.button1.Text = "Export to XLS";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // lab_Formula
             // 
@@ -1138,13 +1101,10 @@
             this.Controls.Add(this.label14);
             this.Controls.Add(this.txt_Color);
             this.Controls.Add(this.label13);
-            this.Controls.Add(this.cmb_Height);
             this.Controls.Add(this.txt_Height);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.cmb_Width);
             this.Controls.Add(this.txt_Width);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.cmb_Length);
             this.Controls.Add(this.txt_Length);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.txt_AccessoryQuantity);
@@ -1219,11 +1179,8 @@
         private System.Windows.Forms.TextBox txt_AccessoryQuantity;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txt_Length;
-        private SergeUtils.EasyCompletionComboBox cmb_Length;
-        private SergeUtils.EasyCompletionComboBox cmb_Width;
         private System.Windows.Forms.TextBox txt_Width;
         private System.Windows.Forms.Label label11;
-        private SergeUtils.EasyCompletionComboBox cmb_Height;
         private System.Windows.Forms.TextBox txt_Height;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txt_Color;
