@@ -174,6 +174,7 @@
             this.btn_Open.TabIndex = 2;
             this.btn_Open.Text = "Open";
             this.btn_Open.UseVisualStyleBackColor = false;
+            this.btn_Open.Click += new System.EventHandler(this.btn_Open_Click);
             // 
             // btn_Export
             // 

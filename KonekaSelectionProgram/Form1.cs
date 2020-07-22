@@ -263,11 +263,11 @@ namespace KonekaSelectionProgram
                 _InquiryHeight = txt_Height.Text;
                 _InquiryModel = cmb_ConvectorsModel.Text;
                 //getting HeatOutput
-                double heatOutput = Search.GetRecord(cmb_ConvectorsModel.Text, length, width, height, changeInTemperature, fanSpeed);
+               //double heatOutput = Search.GetRecord(cmb_ConvectorsModel.Text, length, width, height, changeInTemperature, fanSpeed);
                 //MessageBox.Show(heatOutput.ToString());
                 // getConvectors(DataGridView dataGridView, string Model, double width, double height,double heatOutput)
                 //Fill DGV WITH SUGGESTIONS
-                Convectors.getConvectors(dgv_Suggestion, cmb_ConvectorsModel.Text, width, height, heatOutput);
+//                Convectors.getConvectors(dgv_Suggestion, cmb_ConvectorsModel.Text, width, height, heatOutput);
 
                 //Saving Info Related To Data
                 if (cmb_GrillsType.SelectedValue.ToString() == "2" || cmb_GrillsType.SelectedValue.ToString() == "3")
@@ -346,6 +346,11 @@ namespace KonekaSelectionProgram
                     }
                 }
             }
+        }
+
+        private void btn_Open_Click(object sender, EventArgs e)
+        {
+            StoreProcedure.UpdateData(60, 0.6);
         }
     }
 }
