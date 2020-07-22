@@ -88,7 +88,6 @@ namespace KonekaSelectionProgram
                 MessageBox.Show(ex.Message);
             }
         }
-
         public static void fillCombo(ComboBox combo, String TableName, String DisplayMember, String ValueMember, String Condition, String Key)//, List<T> Models, string Name, string Value)
         {
             try
@@ -184,7 +183,6 @@ namespace KonekaSelectionProgram
                 MessageBox.Show(ex.Message);
             }
         }
-
         public static void getCompany(ComboBox combo, String TableName, String DisplayMember, String ValueMember, String Condition)//, List<T> Models, string Name, string Value)
         {
             try
@@ -216,7 +214,6 @@ namespace KonekaSelectionProgram
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
         public static void fillComboWithoutCondition(ComboBox combo, String TableName, String DisplayMember, String ValueMember)//, List<T> Models, string Name, string Value)
         {
@@ -249,7 +246,6 @@ namespace KonekaSelectionProgram
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
         public static void fillComboWithDistinct(ComboBox combo, String TableName, String DisplayMember, String ValueMember , string groupBy)//, List<T> Models, string Name, string Value)
         {
@@ -282,7 +278,6 @@ namespace KonekaSelectionProgram
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
         public static void fillDgv(DataGridView DataGridView, String Query)
         {

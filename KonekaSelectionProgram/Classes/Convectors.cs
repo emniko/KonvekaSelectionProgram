@@ -12,18 +12,18 @@ namespace KonekaSelectionProgram
         public static void getConvectors(DataGridView dataGridView, string Model, double width, double height,double heatOutput)
         {
             Main.fillDgv(dataGridView, @"
-	                SELECT * FROM 
+	                select ID,Model,Length,Width,Height,HeatOutput,CoolingCapacity from 
 	                (
 	                SELECT *            
             	    FROM   (SELECT Top 2 * FROM Convectors 
     	            WHERE Model = '" + Model + "' and width = " + width + " and height = " + height + " " +
-                    "and __HeatOutput <= " + heatOutput + " Order by __HeatOutput Desc" +
+                    "and HeatOutput <= " + heatOutput + " Order by HeatOutput Desc" +
                     ")t " +
                     "UNION ALL " +
                     "SELECT * FROM  " +
                     "(SELECT Top 2  * FROM Convectors " +
                     "WHERE Model = '" + Model + "' and width = " + width + " and height = " + height + " " +
-                    "and __HeatOutput > " + heatOutput + " Order by __HeatOutput Asc" +
+                    "and HeatOutput > " + heatOutput + " Order by HeatOutput Asc" +
                     ")s " +
                     ")a" +
                     " order by id"
