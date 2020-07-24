@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using KonekaSelectionProgram.Search;
 
 namespace KonekaSelectionProgram
 {
@@ -39,6 +40,7 @@ namespace KonekaSelectionProgram
             //Grilles Types
             Main.fillComboWithoutCondition(cmb_GrillsType, "GrillType", "Type", "ID");
 
+            cmb_searchingCriteria.SelectedIndex = 0;
 
         }
         private void cmb_ConvectorsInstallationType_SelectedIndexChanged(object sender, EventArgs e)
@@ -236,55 +238,215 @@ namespace KonekaSelectionProgram
         {
 
             //GetRecord(string model, double lenght, double width, double height, double changeInTemperature, double fanSpeed)
-            double length, width, height, changeInTemperature, fanSpeed;
-            if (!double.TryParse(txt_Length.Text, out length))
-            {
+            double length = 0, width = 0, height = 0, heatOutput = 0, changeInTemperature = 0, fanSpeed = 0;
+            double.TryParse(txt_Length.Text, out length);
+            double.TryParse(txt_Width.Text, out width);
+            double.TryParse(txt_Height.Text, out height);
+            double.TryParse(txt_HeatingChangeInTemperature.Text, out changeInTemperature);
+            double.TryParse(txt_HeatingFanSpeed.Text, out fanSpeed);
+            double.TryParse(txt_HeatOutput.Text, out heatOutput);
 
-            }
-            else if (!double.TryParse(txt_Width.Text, out width))
+            //getting values for suggestion
+            _InquiryLength = txt_Length.Text;
+            _InquiryWidth = txt_Width.Text;
+            _InquiryHeight = txt_Height.Text;
+            _InquiryModel = cmb_ConvectorsModel.Text;
+            StoreProcedure.UpdateData(changeInTemperature, fanSpeed);
+            if (cmb_searchingCriteria.SelectedIndex == 0)
             {
+                SearchEqual(dgv_Suggestion, _InquiryModel, length, width, height, heatOutput);
+            }
+            else if (cmb_searchingCriteria.SelectedIndex == 1)
+            {
+                SearchLessOrEqual(dgv_Suggestion, _InquiryModel, length, width, height, heatOutput);
+            }
+            else if (cmb_searchingCriteria.SelectedIndex == 3)
+            {
+            }
 
-            }
-            else if (!double.TryParse(txt_Height.Text, out height))
-            {
 
-            }
-            else if (!double.TryParse(txt_HeatingChangeInTemperature.Text, out changeInTemperature))
+            //getting HeatOutput
+            //double heatOutput = Search.GetRecord(cmb_ConvectorsModel.Text, length, width, height, changeInTemperature, fanSpeed);
+            //MessageBox.Show(heatOutput.ToString());
+            // getConvectors(DataGridView dataGridView, string Model, double width, double height,double heatOutput)
+            //Fill DGV WITH SUGGESTIONS
+            //                Convectors.getConvectors(dgv_Suggestion, cmb_ConvectorsModel.Text, width, height, heatOutput);
+
+            //Saving Info Related To Data
+            if (cmb_GrillsType.SelectedValue.ToString() == "2" || cmb_GrillsType.SelectedValue.ToString() == "3")
             {
-            }
-            else if (!double.TryParse(txt_HeatingFanSpeed.Text, out fanSpeed))
-            {
+                grillRequire = true;
+                Grilletype = cmb_GrillsType.SelectedValue.ToString();
+                GrillMaterail = getGrillMaterail(cmb_GrillsMaterialColor.Text);
             }
             else
             {
-                //getting values for suggestion
-                _InquiryLength = txt_Length.Text;
-                _InquiryWidth = txt_Width.Text;
-                _InquiryHeight = txt_Height.Text;
-                _InquiryModel = cmb_ConvectorsModel.Text;
-                //getting HeatOutput
-               //double heatOutput = Search.GetRecord(cmb_ConvectorsModel.Text, length, width, height, changeInTemperature, fanSpeed);
-                //MessageBox.Show(heatOutput.ToString());
-                // getConvectors(DataGridView dataGridView, string Model, double width, double height,double heatOutput)
-                //Fill DGV WITH SUGGESTIONS
-//                Convectors.getConvectors(dgv_Suggestion, cmb_ConvectorsModel.Text, width, height, heatOutput);
+                grillRequire = false;
+                Grilletype = "";
+                GrillMaterail = "";
+            }
 
-                //Saving Info Related To Data
-                if (cmb_GrillsType.SelectedValue.ToString() == "2" || cmb_GrillsType.SelectedValue.ToString() == "3")
-                {
-                    grillRequire = true;
-                    Grilletype = cmb_GrillsType.SelectedValue.ToString();
-                    GrillMaterail = getGrillMaterail(cmb_GrillsMaterialColor.Text);
-                }
-                else
-                {
-                    grillRequire = false;
-                    Grilletype = "";
-                    GrillMaterail = "";
-                }
+
+        }
+        #region SearchForEqualRecord
+        public void SearchEqual(DataGridView dataGridView, string Model, double Length, double Width, double Height, double HeatOutput)
+        {
+            //1
+            if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_HeatOutput.Text == "")
+            {
+                EqualsSearch.Search1000(dataGridView, Model, Length);
+            }
+            //2
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_HeatOutput.Text == "")
+            {
+                EqualsSearch.Search0100(dataGridView, Model, Width);
+            }
+            //3
+            else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
+            {
+                EqualsSearch.Search0010(dataGridView, Model, Height);
 
             }
+            //4
+            else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_HeatOutput.Text != "")
+            {
+                EqualsSearch.Search0001(dataGridView, Model, HeatOutput);
+
+            }
+            //5
+            else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_HeatOutput.Text == "")
+            {
+                EqualsSearch.Search1100(dataGridView, Model, Length, Width);
+
+            }
+            //6
+            else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
+            {
+                EqualsSearch.Search1010(dataGridView, Model, Length, Height);
+            }
+            //7
+            else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_HeatOutput.Text != "")
+            {
+                EqualsSearch.Search1001(dataGridView, Model, Length, HeatOutput);
+            }
+            //8
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
+            {
+                EqualsSearch.Search0110(dataGridView, Model, Width, Height);
+            }
+            //9
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_HeatOutput.Text != "")
+            {
+                EqualsSearch.Search0101(dataGridView, Model, Width, Height);
+            }
+            //10
+            else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
+            {
+                EqualsSearch.Search0011(dataGridView, Model, Height, HeatOutput);
+            }
+            //11
+            else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
+            {
+                EqualsSearch.Search1110(dataGridView, Model, Length, Width, Height);
+            }
+            //12
+            else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
+            {
+                EqualsSearch.Search1011(dataGridView, Model, Length, Height, HeatOutput);
+            }
+            //13
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
+            {
+                EqualsSearch.Search0111(dataGridView, Model, Width, Height, HeatOutput);
+            }
+            //14
+            else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
+            {
+                EqualsSearch.Search1111(dataGridView, Model, Length, Width, Height, HeatOutput);
+            }
         }
+        #endregion
+
+        public void SearchLessOrEqual(DataGridView dataGridView, string Model, double Length, double Width, double Height, double HeatOutput)
+        {
+            //1
+            if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_HeatOutput.Text == "")
+            {
+                LessOrEqual.Search1000(dataGridView, Model, Length);
+            }
+            //2
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_HeatOutput.Text == "")
+            {
+                LessOrEqual.Search0100(dataGridView, Model, Width);
+            }
+            //3
+            else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
+            {
+                LessOrEqual.Search0010(dataGridView, Model, Height);
+
+            }
+            //4
+            else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_HeatOutput.Text != "")
+            {
+                LessOrEqual.Search0001(dataGridView, Model, HeatOutput);
+
+            }
+            //5
+            else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_HeatOutput.Text == "")
+            {
+                LessOrEqual.Search1100(dataGridView, Model, Length, Width);
+
+            }
+            //6
+            else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
+            {
+                LessOrEqual.Search1010(dataGridView, Model, Length, Height);
+            }
+            //7
+            else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_HeatOutput.Text != "")
+            {
+                LessOrEqual.Search1001(dataGridView, Model, Length, HeatOutput);
+            }
+            //8
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
+            {
+                LessOrEqual.Search0110(dataGridView, Model, Width, Height);
+            }
+            //9
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_HeatOutput.Text != "")
+            {
+                LessOrEqual.Search0101(dataGridView, Model, Width, Height);
+            }
+            //10
+            else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
+            {
+                LessOrEqual.Search0011(dataGridView, Model, Height, HeatOutput);
+            }
+            //11
+            else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
+            {
+                LessOrEqual.Search1110(dataGridView, Model, Length, Width, Height);
+            }
+            //12
+            else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
+            {
+                LessOrEqual.Search1011(dataGridView, Model, Length, Height, HeatOutput);
+            }
+            //13
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
+            {
+                LessOrEqual.Search0111(dataGridView, Model, Width, Height, HeatOutput);
+            }
+            //14
+            else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
+            {
+                LessOrEqual.Search1111(dataGridView, Model, Length, Width, Height, HeatOutput);
+            }
+        }
+
+
+
+
         public string getGrillMaterail(string grille)
         {
             var firstSpaceIndex = grille.IndexOf("\r");
@@ -307,44 +469,53 @@ namespace KonekaSelectionProgram
         }
         private void dgv_Suggestion_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var senderGrid = (DataGridView)sender;
-            int index = e.RowIndex;
-            DataGridViewRow selectedrow = dgv_Suggestion.Rows[index];
-            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            try
             {
 
-                //getting required values for suggestions grid
-                int ID = int.Parse(selectedrow.Cells["ID"].Value.ToString());
-                string model = selectedrow.Cells["Model"].Value.ToString();
-                double length = double.Parse(selectedrow.Cells["Length"].Value.ToString());
-                double width = double.Parse(selectedrow.Cells["Width"].Value.ToString());
-                string height = selectedrow.Cells["Height"].Value.ToString();
-                string color = ""; // i think we should take this from sql 
-                string grilleMaterial = ""; // for convectors its not necessary 
-                string heatOutput = selectedrow.Cells["Heatoutput"].Value.ToString();
-                string CoolingCapacity = selectedrow.Cells["CoolingCapacity"].Value.ToString();
-                string Quantity = "0"; // selectedrow.Cells["Quantity"].Value.ToString();
-                double price = 0;
-                //adding rows to Offer
-                dataGridView1.Rows.Add(ID, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryModel, length, width, height, color, grilleMaterial, heatOutput, CoolingCapacity, Quantity, price, "");
 
-                //adding grille to offer if needed
-                if (grillRequire == true)
+                var senderGrid = (DataGridView)sender;
+                int index = e.RowIndex;
+                DataGridViewRow selectedrow = dgv_Suggestion.Rows[index];
+                if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
                 {
-                    if (Grille.checkGrille(ID))
+
+                    //getting required values for suggestions grid
+                    int ID = int.Parse(selectedrow.Cells["ID"].Value.ToString());
+                    string model = selectedrow.Cells["Model"].Value.ToString();
+                    double length = double.Parse(selectedrow.Cells["Length"].Value.ToString());
+                    double width = double.Parse(selectedrow.Cells["Width"].Value.ToString());
+                    string height = selectedrow.Cells["Height"].Value.ToString();
+                    string color = ""; // i think we should take this from sql 
+                    string grilleMaterial = ""; // for convectors its not necessary 
+                    string heatOutput = selectedrow.Cells["Heatoutput"].Value.ToString();
+                    string CoolingCapacity = selectedrow.Cells["CoolingCapacity"].Value.ToString();
+                    string Quantity = "0"; // selectedrow.Cells["Quantity"].Value.ToString();
+                    double price = 0;
+                    //adding rows to Offer
+                    dataGridView1.Rows.Add(ID, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryModel, length, width, height, color, grilleMaterial, heatOutput, CoolingCapacity, Quantity, price, "");
+
+                    //adding grille to offer if needed
+                    if (grillRequire == true)
                     {
-                        if (Grilletype == "2")
+                        if (Grille.checkGrille(ID))
                         {
-                            Grille.getRollUpGrille(dgv_GrilleProducts, length, width, GrillMaterail);
-                            addGrillToDataGridView(dgv_GrilleProducts);
-                        }
-                        else if (Grilletype == "3")
-                        {
-                            Grille.getLinearGrille(dgv_GrilleProducts, length, width, GrillMaterail);
-                            addGrillToDataGridView(dgv_GrilleProducts);
+                            if (Grilletype == "2")
+                            {
+                                Grille.getRollUpGrille(dgv_GrilleProducts, length, width, GrillMaterail);
+                                addGrillToDataGridView(dgv_GrilleProducts);
+                            }
+                            else if (Grilletype == "3")
+                            {
+                                Grille.getLinearGrille(dgv_GrilleProducts, length, width, GrillMaterail);
+                                addGrillToDataGridView(dgv_GrilleProducts);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception)
+            {
+
             }
         }
 
