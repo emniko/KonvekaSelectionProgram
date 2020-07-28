@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using KonekaSelectionProgram.Search;
+using System.IO;
+using SpreadsheetLight;
 
 namespace KonekaSelectionProgram
 {
@@ -34,11 +36,11 @@ namespace KonekaSelectionProgram
         private void cmb_ConvectorsType_Load(object sender, EventArgs e)
         {
             //installation type
-            Main.fillComboWithoutCondition(cmb_ConvectorsInstallationType, "InstallationType", "IntallationType", "IntallationTypeID");
+            // Main.fillComboWithoutCondition(cmb_ConvectorsInstallationType, "InstallationType", "IntallationType", "IntallationTypeID");
             //accessories
-            Main.fillComboWithoutCondition(cmb_Accessory, "Accessories", "Name", "ID");
+            //  Main.fillComboWithoutCondition(cmb_Accessory, "Accessories", "Name", "ID");
             //Grilles Types
-            Main.fillComboWithoutCondition(cmb_GrillsType, "GrillType", "Type", "ID");
+            //  Main.fillComboWithoutCondition(cmb_GrillsType, "GrillType", "Type", "ID");
 
             cmb_searchingCriteria.SelectedIndex = 0;
 
@@ -522,6 +524,40 @@ namespace KonekaSelectionProgram
         private void btn_Open_Click(object sender, EventArgs e)
         {
             StoreProcedure.UpdateData(60, 0.6);
+        }
+
+        private void btn_Export_Click(object sender, EventArgs e)
+        {
+            using (SLDocument sl = new SLDocument(Application.StartupPath + "\\template.xlsx"))
+            {
+                sl.SetCellValue("O9", "Date: " + DateTime.Now.ToShortDateString());
+                
+
+
+                SaveFileDialog saveDlg = new SaveFileDialog();
+                saveDlg.InitialDirectory = @"C:\";
+                saveDlg.Filter = "Excel files (*.xlsx)|*.xlsx";
+                saveDlg.FilterIndex = 0;
+                saveDlg.RestoreDirectory = true;
+                saveDlg.Title = "Export Excel File To";
+
+                if (saveDlg.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string path = saveDlg.FileName;
+                        sl.SaveAs(path);
+                    }
+
+
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+                
+            }
+            
         }
     }
 }
