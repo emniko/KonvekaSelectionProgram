@@ -16,7 +16,7 @@ namespace KonekaSelectionProgram
             {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new cmb_ConvectorsType());
+            Application.Run(new Form1());
         }
     }
 }
