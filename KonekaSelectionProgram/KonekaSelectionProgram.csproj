@@ -38,6 +38,9 @@
       <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="GemBox.Spreadsheet, Version=45.0.0.1187, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
+      <HintPath>..\packages\GemBox.Spreadsheet.45.0.1187\lib\net35\GemBox.Spreadsheet.dll</HintPath>
+    </Reference>
     <Reference Include="MathParser.org-mXparser, Version=4.4.2.0, Culture=neutral, PublicKeyToken=0fbab7add73ed6e2, processorArchitecture=MSIL">
       <HintPath>..\packages\MathParser.org-mXparser.4.4.2\lib\net461\MathParser.org-mXparser.dll</HintPath>
     </Reference>
