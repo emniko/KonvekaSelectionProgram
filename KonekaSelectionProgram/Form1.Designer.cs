@@ -123,13 +123,18 @@
             this.Height1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Material1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_OfferTable = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_AddAccessory = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.ID2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InWidth = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Height3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InHeatOutput = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CoolingCapacityI = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SuModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SuLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Width2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Height2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -141,10 +146,6 @@
             this.Price1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TotalEuro1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.btn_AddAccessory = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Suggestion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GrilleProducts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_OfferTable)).BeginInit();
@@ -435,6 +436,7 @@
             this.txt_AccessoryQuantity.Name = "txt_AccessoryQuantity";
             this.txt_AccessoryQuantity.Size = new System.Drawing.Size(99, 30);
             this.txt_AccessoryQuantity.TabIndex = 29;
+            this.txt_AccessoryQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_AccessoryQuantity_KeyPress);
             // 
             // label10
             // 
@@ -1098,13 +1100,14 @@
             this.dgv_OfferTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgv_OfferTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_OfferTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
+            this.ID2,
             this.InLength,
             this.InWidth,
             this.Height3,
             this.InHeatOutput,
             this.CoolingCapacityI,
             this.SuModel,
+            this.Name,
             this.SuLength,
             this.Width2,
             this.Height2,
@@ -1142,12 +1145,62 @@
             this.dgv_OfferTable.TabIndex = 73;
             this.dgv_OfferTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_OfferTable_CellContentClick);
             // 
-            // dataGridViewTextBoxColumn1
+            // btn_AddAccessory
             // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "ID";
-            this.dataGridViewTextBoxColumn1.HeaderText = "No";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.btn_AddAccessory.BackColor = System.Drawing.Color.White;
+            this.btn_AddAccessory.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_AddAccessory.Font = new System.Drawing.Font("Century Gothic", 10.01739F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_AddAccessory.Location = new System.Drawing.Point(178, 512);
+            this.btn_AddAccessory.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_AddAccessory.Name = "btn_AddAccessory";
+            this.btn_AddAccessory.Size = new System.Drawing.Size(513, 37);
+            this.btn_AddAccessory.TabIndex = 76;
+            this.btn_AddAccessory.Text = "Add";
+            this.btn_AddAccessory.UseVisualStyleBackColor = false;
+            this.btn_AddAccessory.Click += new System.EventHandler(this.btn_AddAccessory_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::KonekaSelectionProgram.Properties.Resources.Logo1;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(572, 109);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 77;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label28
+            // 
+            this.label28.BackColor = System.Drawing.Color.White;
+            this.label28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label28.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(21, 900);
+            this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(827, 34);
+            this.label28.TabIndex = 78;
+            this.label28.Text = "Inquiry";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label29
+            // 
+            this.label29.BackColor = System.Drawing.Color.White;
+            this.label29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label29.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(850, 900);
+            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(1474, 34);
+            this.label29.TabIndex = 79;
+            this.label29.Text = "Offer";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ID2
+            // 
+            this.ID2.DataPropertyName = "ID";
+            this.ID2.HeaderText = "No";
+            this.ID2.Name = "ID2";
+            this.ID2.ReadOnly = true;
             // 
             // InLength
             // 
@@ -1188,6 +1241,13 @@
             this.SuModel.HeaderText = "Model";
             this.SuModel.Name = "SuModel";
             this.SuModel.ReadOnly = true;
+            // 
+            // Name
+            // 
+            this.Name.HeaderText = "Name";
+            this.Name.Name = "Name";
+            this.Name.ReadOnly = true;
+            this.Name.Visible = false;
             // 
             // SuLength
             // 
@@ -1257,56 +1317,6 @@
             this.Delete.ReadOnly = true;
             this.Delete.Text = "Delete";
             this.Delete.UseColumnTextForButtonValue = true;
-            // 
-            // btn_AddAccessory
-            // 
-            this.btn_AddAccessory.BackColor = System.Drawing.Color.White;
-            this.btn_AddAccessory.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_AddAccessory.Font = new System.Drawing.Font("Century Gothic", 10.01739F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_AddAccessory.Location = new System.Drawing.Point(178, 512);
-            this.btn_AddAccessory.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_AddAccessory.Name = "btn_AddAccessory";
-            this.btn_AddAccessory.Size = new System.Drawing.Size(513, 37);
-            this.btn_AddAccessory.TabIndex = 76;
-            this.btn_AddAccessory.Text = "Add";
-            this.btn_AddAccessory.UseVisualStyleBackColor = false;
-            this.btn_AddAccessory.Click += new System.EventHandler(this.btn_AddAccessory_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::KonekaSelectionProgram.Properties.Resources.Logo1;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(572, 109);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 77;
-            this.pictureBox1.TabStop = false;
-            // 
-            // label28
-            // 
-            this.label28.BackColor = System.Drawing.Color.White;
-            this.label28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label28.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(21, 900);
-            this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(827, 34);
-            this.label28.TabIndex = 78;
-            this.label28.Text = "Inquiry";
-            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label29
-            // 
-            this.label29.BackColor = System.Drawing.Color.White;
-            this.label29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label29.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(850, 900);
-            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(1474, 34);
-            this.label29.TabIndex = 79;
-            this.label29.Text = "Offer";
-            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
@@ -1384,7 +1394,6 @@
             this.Controls.Add(this.btn_Open);
             this.Controls.Add(this.btn_ProgramData);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Konveka Selection Program";
             this.Load += new System.EventHandler(this.cmb_ConvectorsType_Load);
@@ -1487,13 +1496,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewButtonColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID2;
         private System.Windows.Forms.DataGridViewTextBoxColumn InLength;
         private System.Windows.Forms.DataGridViewTextBoxColumn InWidth;
         private System.Windows.Forms.DataGridViewTextBoxColumn Height3;
         private System.Windows.Forms.DataGridViewTextBoxColumn InHeatOutput;
         private System.Windows.Forms.DataGridViewTextBoxColumn CoolingCapacityI;
         private System.Windows.Forms.DataGridViewTextBoxColumn SuModel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn SuLength;
         private System.Windows.Forms.DataGridViewTextBoxColumn Width2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Height2;

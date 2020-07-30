@@ -93,6 +93,25 @@ namespace KonekaSelectionProgram
                 }
             }
         }
+        private double getGrandTotal()
+        {
+            double grandTotal = 0;
+
+            try
+            {
+                for (int i = 0; i < dgv_OfferTable.RowCount; i++)
+                {
+                    double total = 0;
+                    double.TryParse(dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString(),out total);
+                    grandTotal += total;
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return grandTotal;
+
+        }
         private void calculateTotal()
         {
             try
@@ -110,6 +129,22 @@ namespace KonekaSelectionProgram
                 MessageBox.Show(ex.Message);
             }
 
+        }
+        private void getName()
+        {
+            try
+            {
+                for (int i = 0; i < dgv_OfferTable.RowCount; i++)
+                {
+                    string ID = dgv_OfferTable.Rows[i].Cells["ID2"].Value.ToString();
+                    string name = SQL.ScalarQuery("select Name from convectors where ID  = " + ID + "");
+                    dgv_OfferTable.Rows[i].Cells["Name"].Value = name;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         private void updatePricesInSuggestionGrid()
         {
@@ -565,7 +600,7 @@ namespace KonekaSelectionProgram
                 string height = dataGridView.Rows[0].Cells["Height1"].Value.ToString();
                 string material = dataGridView.Rows[0].Cells["Material1"].Value.ToString();
                 double price = double.Parse(SQL.ScalarQuery("select " + getPriceBase() + " from GrilleProducts where ID  = " + ID + ""));
-                dgv_OfferTable.Rows.Add(ID, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, Model, length, width, height, "", material, "", "", "0", price, "");
+                dgv_OfferTable.Rows.Add(ID, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, Model, "", length, width, height, "", material, "", "", "0", price, "");
             }
         }
         private void dgv_Suggestion_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -579,7 +614,9 @@ namespace KonekaSelectionProgram
                 DataGridViewRow selectedrow = dgv_Suggestion.Rows[index];
                 if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
                 {
-
+                    if (selectedrow.Cells["Quantity"].Value.ToString() == null)
+                    {
+                    }
                     //getting required values for suggestions grid
                     int ID = int.Parse(selectedrow.Cells["ID"].Value.ToString());
                     string model = selectedrow.Cells["Model"].Value.ToString();
@@ -590,10 +627,10 @@ namespace KonekaSelectionProgram
                     string grilleMaterial = ""; // for convectors its not necessary 
                     double heatOutput = double.Parse(selectedrow.Cells["Heatoutput"].Value.ToString());
                     // double CoolingCapacity = double.Parse(selectedrow.Cells["CoolingCapacity"].Value.ToString());
-                    string Quantity = "1"; // selectedrow.Cells["Quantity"].Value.ToString();
+                    string Quantity = selectedrow.Cells["Quantity"].Value.ToString();
                     double price = double.Parse(selectedrow.Cells["Price"].Value.ToString());
                     //adding rows to Offer
-                    dgv_OfferTable.Rows.Add(ID, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, _InquiryModel, length, width, height, color, grilleMaterial, heatOutput, "Cooling", Quantity, price, "");
+                    dgv_OfferTable.Rows.Add(ID, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, _InquiryModel, "", length, width, height, color, grilleMaterial, heatOutput, "Cooling", Quantity, price, "");
 
                     //adding grille to offer if needed
                     if (grillRequire == true)
@@ -614,11 +651,12 @@ namespace KonekaSelectionProgram
                     }
                     calculateDifference();
                     calculateTotal();
+                    getName();
                 }
             }
-            catch (Exception ex)
+            catch (NullReferenceException ex)
             {
-                //  MessageBox.Show(ex.Message);
+                MessageBox.Show("Please Enter Quantity", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -644,10 +682,10 @@ namespace KonekaSelectionProgram
             {
                 string accessory = cmb_Accessory.Text;
                 string price = SQL.ScalarQuery("select " + pricebase + " from Accessories where ID = " + cmb_Accessory.SelectedValue + "");
-                string wright = SQL.ScalarQuery("select weight from Accessories where ID = " + cmb_Accessory.SelectedValue + "");
+                string weight = SQL.ScalarQuery("select weight from Accessories where ID = " + cmb_Accessory.SelectedValue + "");
                 string quantity = txt_AccessoryQuantity.Text;
                 //adding rows to Offer
-                dgv_OfferTable.Rows.Add("", "", "", "", "", "", accessory, "", "", "", "", "", "", "", quantity, price, "");
+                dgv_OfferTable.Rows.Add("", "", "", "", "", "", accessory, "", "", "", "", "", "", "", "", quantity, price, "");
                 calculateTotal();
             }
 
@@ -684,9 +722,13 @@ namespace KonekaSelectionProgram
         private void btn_Export_Click(object sender, EventArgs e)
         {
             int count = 20;
+            int no = 1;
             using (SLDocument sl = new SLDocument(Application.StartupPath + "\\template.xlsx"))
             {
                 sl.SetCellValue("O9", "Date: " + DateTime.Now.ToShortDateString());
+                string grandTotal = getGrandTotal().ToString();
+                MessageBox.Show(grandTotal);
+                sl.SetCellValue("AD14", grandTotal);
 
 
                 for (int i = 0; i < dgv_OfferTable.RowCount; i++)
@@ -697,15 +739,15 @@ namespace KonekaSelectionProgram
                     string lnHeight = dgv_OfferTable.Rows[i].Cells["Height3"].Value.ToString();
                     string lnHeatOutput = dgv_OfferTable.Rows[i].Cells["InHeatOutput"].Value.ToString();
                     string lnCooling = dgv_OfferTable.Rows[i].Cells["CoolingCapacityI"].Value.ToString();
-                    sl.SetCellValue("C" + count, lnLength);
-                    sl.SetCellValue("D" + count, lnWidth);
-                    sl.SetCellValue("E" + count, lnHeight);
-                    sl.SetCellValue("F" + count, lnHeatOutput);
-                    sl.SetCellValue("J" + count, lnCooling);
+                    sl.SetCellValue("B" + count, lnLength);
+                    sl.SetCellValue("C" + count, lnWidth);
+                    sl.SetCellValue("D" + count, lnHeight);
+                    sl.SetCellValue("E" + count, lnHeatOutput);
+                    sl.SetCellValue("I" + count, lnCooling);
 
                     //suggestions
 
-                    string SuName = "NAME";
+                    string SuName = dgv_OfferTable.Rows[i].Cells["Name"].Value.ToString();
                     string SuModel = dgv_OfferTable.Rows[i].Cells["SuModel"].Value.ToString();
                     string SuLength = dgv_OfferTable.Rows[i].Cells["SuLength"].Value.ToString();
                     string SuWidth = dgv_OfferTable.Rows[i].Cells["Width2"].Value.ToString();
@@ -717,24 +759,21 @@ namespace KonekaSelectionProgram
                     string SuPrice = dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString();
                     string SuTotal = dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString();
 
-                    sl.SetCellValue("O" + count, SuName);
-                    sl.SetCellValue("P" + count, SuModel);
-                    sl.SetCellValue("Q" + count, SuLength);
-                    sl.SetCellValue("R" + count, SuWidth);
-                    sl.SetCellValue("S" + count, SuHeight);
-                    sl.SetCellValue("T" + count, SuColor);
-                    sl.SetCellValue("U" + count, SuHeatoutput);
-                    sl.SetCellValue("Y" + count, SuCooling);
-                    sl.SetCellValue("AC" + count, SuQuantity);
-                    sl.SetCellValue("AD" + count, SuPrice);
-                    sl.SetCellValue("AE" + count, SuTotal);
-
-
-
-
-
+                    sl.SetCellValue("M" + count, no);
+                    sl.SetCellValue("N" + count, SuName);
+                    sl.SetCellValue("O" + count, SuModel);
+                    sl.SetCellValue("P" + count, SuLength);
+                    sl.SetCellValue("Q" + count, SuWidth);
+                    sl.SetCellValue("R" + count, SuHeight);
+                    sl.SetCellValue("S" + count, SuColor);
+                    sl.SetCellValue("T" + count, SuHeatoutput);
+                    sl.SetCellValue("X" + count, SuCooling);
+                    sl.SetCellValue("AB" + count, SuQuantity);
+                    sl.SetCellValue("AC" + count, SuPrice);
+                    sl.SetCellValue("AD" + count, SuTotal);
 
                     count++;
+                    no++;
                 }
 
                 SaveFileDialog saveDlg = new SaveFileDialog();
@@ -764,6 +803,11 @@ namespace KonekaSelectionProgram
         private void btn_Print_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void txt_AccessoryQuantity_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Main.OnlyDigits(e);
         }
     }
 }
