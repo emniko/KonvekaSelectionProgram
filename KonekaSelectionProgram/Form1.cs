@@ -758,7 +758,78 @@ namespace KonekaSelectionProgram
 
         private void btn_Print_Click(object sender, EventArgs e)
         {
+            int count = 20;
+            using (SLDocument sl = new SLDocument(Application.StartupPath + "\\template.xlsx"))
+            {
+                sl.SetCellValue("O9", "Date: " + DateTime.Now.ToShortDateString());
 
+
+                for (int i = 0; i < dgv_OfferTable.RowCount; i++)
+                {
+                    //Inquiry
+                    string lnLength = dgv_OfferTable.Rows[i].Cells["InLength"].Value.ToString();
+                    string lnWidth = dgv_OfferTable.Rows[i].Cells["InWidth"].Value.ToString();
+                    string lnHeight = dgv_OfferTable.Rows[i].Cells["Height3"].Value.ToString();
+                    string lnHeatOutput = dgv_OfferTable.Rows[i].Cells["InHeatOutput"].Value.ToString();
+                    string lnCooling = dgv_OfferTable.Rows[i].Cells["CoolingCapacityI"].Value.ToString();
+                    sl.SetCellValue("C" + count, lnLength);
+                    sl.SetCellValue("D" + count, lnWidth);
+                    sl.SetCellValue("E" + count, lnHeight);
+                    sl.SetCellValue("F" + count, lnHeatOutput);
+                    sl.SetCellValue("J" + count, lnCooling);
+
+                    //suggestions
+
+                    string SuName = "NAME";
+                    string SuModel = dgv_OfferTable.Rows[i].Cells["SuModel"].Value.ToString();
+                    string SuLength = dgv_OfferTable.Rows[i].Cells["SuLength"].Value.ToString();
+                    string SuWidth = dgv_OfferTable.Rows[i].Cells["Width2"].Value.ToString();
+                    string SuHeight = dgv_OfferTable.Rows[i].Cells["Height2"].Value.ToString();
+                    string SuColor = dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString();
+                    string SuHeatoutput = dgv_OfferTable.Rows[i].Cells["SuHeatOutput"].Value.ToString();
+                    string SuCooling = dgv_OfferTable.Rows[i].Cells["SuCoolingCapacity"].Value.ToString();
+                    string SuQuantity = dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString();
+                    string SuPrice = dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString();
+                    string SuTotal = dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString();
+
+                    sl.SetCellValue("O" + count, SuName);
+                    sl.SetCellValue("P" + count, SuModel);
+                    sl.SetCellValue("Q" + count, SuLength);
+                    sl.SetCellValue("R" + count, SuWidth);
+                    sl.SetCellValue("S" + count, SuHeight);
+                    sl.SetCellValue("T" + count, SuColor);
+                    sl.SetCellValue("U" + count, SuHeatoutput);
+                    sl.SetCellValue("Y" + count, SuCooling);
+                    sl.SetCellValue("AC" + count, SuQuantity);
+                    sl.SetCellValue("AD" + count, SuPrice);
+                    sl.SetCellValue("AE" + count, SuTotal);
+
+                    count++;
+                }
+
+                SaveFileDialog saveDlg = new SaveFileDialog();
+                saveDlg.Filter = "PDF files (.pdf)|.pdf";
+                saveDlg.FilterIndex = 0;
+                saveDlg.RestoreDirectory = true;
+                saveDlg.Title = "Export as PDF";
+
+                if (saveDlg.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string path = saveDlg.FileName;
+                        sl.SaveAs("temp.xlsx");
+                    }
+
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+
+   
+
+            }
         }
     }
 }
