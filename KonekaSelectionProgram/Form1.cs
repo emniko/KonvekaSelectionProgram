@@ -729,11 +729,6 @@ namespace KonekaSelectionProgram
                     sl.SetCellValue("AD" + count, SuPrice);
                     sl.SetCellValue("AE" + count, SuTotal);
 
-
-
-
-
-
                     count++;
                 }
 
