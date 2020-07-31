@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KonekaSelectionProgram.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,26 @@ namespace KonekaSelectionProgram
         public frm_ProjectData()
         {
             InitializeComponent();
+        }
+
+        private void btn_Save_Click(object sender, EventArgs e)
+        {
+            ProjectData.Date = dtp_Date.Value.ToShortDateString();
+            ProjectData.OrderNo = txt_OrderNo.Text;
+            ProjectData.Project = txt_Project.Text;
+            ProjectData.Customer = txt_Customer.Text;
+            ProjectData.ContactPerson = txt_ContactPerson.Text;
+            MessageBox.Show("Data saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(ProjectData.Date);
+            MessageBox.Show(ProjectData.OrderNo);
+            MessageBox.Show(ProjectData.Project);
+            MessageBox.Show(ProjectData.Customer);
+            MessageBox.Show(ProjectData.ContactPerson);
+
         }
     }
 }

@@ -123,10 +123,6 @@
             this.Height1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Material1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_OfferTable = new System.Windows.Forms.DataGridView();
-            this.btn_AddAccessory = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
             this.ID2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InWidth = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -146,6 +142,10 @@
             this.Price1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TotalEuro1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btn_AddAccessory = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Suggestion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GrilleProducts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_OfferTable)).BeginInit();
@@ -1006,7 +1006,6 @@
             // 
             // button1
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.button1.BackColor = System.Drawing.Color.White;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button1.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1145,56 +1144,6 @@
             this.dgv_OfferTable.TabIndex = 73;
             this.dgv_OfferTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_OfferTable_CellContentClick);
             // 
-            // btn_AddAccessory
-            // 
-            this.btn_AddAccessory.BackColor = System.Drawing.Color.White;
-            this.btn_AddAccessory.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_AddAccessory.Font = new System.Drawing.Font("Century Gothic", 10.01739F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_AddAccessory.Location = new System.Drawing.Point(178, 512);
-            this.btn_AddAccessory.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_AddAccessory.Name = "btn_AddAccessory";
-            this.btn_AddAccessory.Size = new System.Drawing.Size(513, 37);
-            this.btn_AddAccessory.TabIndex = 76;
-            this.btn_AddAccessory.Text = "Add";
-            this.btn_AddAccessory.UseVisualStyleBackColor = false;
-            this.btn_AddAccessory.Click += new System.EventHandler(this.btn_AddAccessory_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::KonekaSelectionProgram.Properties.Resources.Logo1;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(572, 109);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 77;
-            this.pictureBox1.TabStop = false;
-            // 
-            // label28
-            // 
-            this.label28.BackColor = System.Drawing.Color.White;
-            this.label28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label28.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(21, 900);
-            this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(827, 34);
-            this.label28.TabIndex = 78;
-            this.label28.Text = "Inquiry";
-            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label29
-            // 
-            this.label29.BackColor = System.Drawing.Color.White;
-            this.label29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label29.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(850, 900);
-            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(1474, 34);
-            this.label29.TabIndex = 79;
-            this.label29.Text = "Offer";
-            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // ID2
             // 
             this.ID2.DataPropertyName = "ID";
@@ -1317,6 +1266,56 @@
             this.Delete.ReadOnly = true;
             this.Delete.Text = "Delete";
             this.Delete.UseColumnTextForButtonValue = true;
+            // 
+            // btn_AddAccessory
+            // 
+            this.btn_AddAccessory.BackColor = System.Drawing.Color.White;
+            this.btn_AddAccessory.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_AddAccessory.Font = new System.Drawing.Font("Century Gothic", 10.01739F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_AddAccessory.Location = new System.Drawing.Point(178, 512);
+            this.btn_AddAccessory.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_AddAccessory.Name = "btn_AddAccessory";
+            this.btn_AddAccessory.Size = new System.Drawing.Size(513, 37);
+            this.btn_AddAccessory.TabIndex = 76;
+            this.btn_AddAccessory.Text = "Add";
+            this.btn_AddAccessory.UseVisualStyleBackColor = false;
+            this.btn_AddAccessory.Click += new System.EventHandler(this.btn_AddAccessory_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::KonekaSelectionProgram.Properties.Resources.Logo1;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(572, 109);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 77;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label28
+            // 
+            this.label28.BackColor = System.Drawing.Color.White;
+            this.label28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label28.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(21, 900);
+            this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(827, 34);
+            this.label28.TabIndex = 78;
+            this.label28.Text = "Inquiry";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label29
+            // 
+            this.label29.BackColor = System.Drawing.Color.White;
+            this.label29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label29.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(850, 900);
+            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(1474, 34);
+            this.label29.TabIndex = 79;
+            this.label29.Text = "Offer";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 

@@ -102,7 +102,7 @@ namespace KonekaSelectionProgram
                 for (int i = 0; i < dgv_OfferTable.RowCount; i++)
                 {
                     double total = 0;
-                    double.TryParse(dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString(),out total);
+                    double.TryParse(dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString(), out total);
                     grandTotal += total;
                 }
             }
@@ -703,7 +703,8 @@ namespace KonekaSelectionProgram
 
         private void btn_ProgramData_Click(object sender, EventArgs e)
         {
-
+            var frm = new frm_ProjectData();
+            frm.ShowDialog();
         }
 
         private void dgv_OfferTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -725,10 +726,14 @@ namespace KonekaSelectionProgram
             int no = 1;
             using (SLDocument sl = new SLDocument(Application.StartupPath + "\\template.xlsx"))
             {
-                sl.SetCellValue("O9", "Date: " + DateTime.Now.ToShortDateString());
+                //basic information 
+                //  sl.SetCellValue("O9", "Date: " + DateTime.Now.ToShortDateString());
+                sl.SetCellValue("O9", "Date: " + ProjectData.Date);
                 string grandTotal = getGrandTotal().ToString();
-                MessageBox.Show(grandTotal);
                 sl.SetCellValue("AD14", grandTotal);
+                sl.SetCellValue("C12", ProjectData.Customer);
+                sl.SetCellValue("C13", ProjectData.ContactPerson);
+                sl.SetCellValue("C14", ProjectData.Project);
 
 
                 for (int i = 0; i < dgv_OfferTable.RowCount; i++)

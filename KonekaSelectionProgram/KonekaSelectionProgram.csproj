@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Grille.cs" />
+    <Compile Include="Classes\ProjectData.cs" />
     <Compile Include="Classes\StoreProcedure.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
