@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using KonekaSelectionProgram.Search;
 using SpreadsheetLight;
+using GemBox.Spreadsheet;
+using System.IO;
 
 namespace KonekaSelectionProgram
 {
@@ -782,7 +784,7 @@ namespace KonekaSelectionProgram
                 }
 
                 SaveFileDialog saveDlg = new SaveFileDialog();
-                saveDlg.Filter = "Excel files (.xlsx)|.xlsx";
+                saveDlg.Filter = "Excel files (*.xlsx)|*.xlsx";
                 saveDlg.FilterIndex = 0;
                 saveDlg.RestoreDirectory = true;
                 saveDlg.Title = "Export Excel File To";
@@ -791,6 +793,7 @@ namespace KonekaSelectionProgram
                 {
                     try
                     {
+                        Cursor = Cursors.WaitCursor;
                         string path = saveDlg.FileName;
                         sl.SaveAs(path);
                     }
@@ -800,19 +803,124 @@ namespace KonekaSelectionProgram
                     {
                         MessageBox.Show(ex.Message);
                     }
+                    finally
+                    {
+                        File.Delete("temp.xlsx");
+                        Cursor = Cursors.Default;
+                    }
                 }
-
             }
         }
 
         private void btn_Print_Click(object sender, EventArgs e)
         {
+            int count = 20;
+            int no = 1;
+            using (SLDocument sl = new SLDocument(Application.StartupPath + "\\template.xlsx"))
+            {
+                sl.SetCellValue("O9", "Date: " + DateTime.Now.ToShortDateString());
+                string grandTotal = getGrandTotal().ToString();
+                sl.SetCellValue("AD14", grandTotal);
 
+
+                for (int i = 0; i < dgv_OfferTable.RowCount; i++)
+                {
+                    //Inquiry
+                    string lnLength = dgv_OfferTable.Rows[i].Cells["InLength"].Value.ToString();
+                    string lnWidth = dgv_OfferTable.Rows[i].Cells["InWidth"].Value.ToString();
+                    string lnHeight = dgv_OfferTable.Rows[i].Cells["Height3"].Value.ToString();
+                    string lnHeatOutput = dgv_OfferTable.Rows[i].Cells["InHeatOutput"].Value.ToString();
+                    string lnCooling = dgv_OfferTable.Rows[i].Cells["CoolingCapacityI"].Value.ToString();
+                    sl.SetCellValue("B" + count, lnLength);
+                    sl.SetCellValue("C" + count, lnWidth);
+                    sl.SetCellValue("D" + count, lnHeight);
+                    sl.SetCellValue("E" + count, lnHeatOutput);
+                    sl.SetCellValue("I" + count, lnCooling);
+
+                    //suggestions
+
+                    string SuName = dgv_OfferTable.Rows[i].Cells["Name"].Value.ToString();
+                    string SuModel = dgv_OfferTable.Rows[i].Cells["SuModel"].Value.ToString();
+                    string SuLength = dgv_OfferTable.Rows[i].Cells["SuLength"].Value.ToString();
+                    string SuWidth = dgv_OfferTable.Rows[i].Cells["Width2"].Value.ToString();
+                    string SuHeight = dgv_OfferTable.Rows[i].Cells["Height2"].Value.ToString();
+                    string SuColor = dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString();
+                    string SuHeatoutput = dgv_OfferTable.Rows[i].Cells["SuHeatOutput"].Value.ToString();
+                    string SuCooling = dgv_OfferTable.Rows[i].Cells["SuCoolingCapacity"].Value.ToString();
+                    string SuQuantity = dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString();
+                    string SuPrice = dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString();
+                    string SuTotal = dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString();
+
+                    sl.SetCellValue("M" + count, no);
+                    sl.SetCellValue("N" + count, SuName);
+                    sl.SetCellValue("O" + count, SuModel);
+                    sl.SetCellValue("P" + count, SuLength);
+                    sl.SetCellValue("Q" + count, SuWidth);
+                    sl.SetCellValue("R" + count, SuHeight);
+                    sl.SetCellValue("S" + count, SuColor);
+                    sl.SetCellValue("T" + count, SuHeatoutput);
+                    sl.SetCellValue("X" + count, SuCooling);
+                    sl.SetCellValue("AB" + count, SuQuantity);
+                    sl.SetCellValue("AC" + count, SuPrice);
+                    sl.SetCellValue("AD" + count, SuTotal);
+
+                    count++;
+                    no++;
+                }
+
+                SaveFileDialog saveDlg = new SaveFileDialog();
+                saveDlg.Filter = "PDF(*.pdf)|*.pdf";
+                saveDlg.FilterIndex = 0;
+                saveDlg.RestoreDirectory = true;
+                saveDlg.Title = "Export as PDF";
+
+                if (saveDlg.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        Cursor = Cursors.WaitCursor;
+                        string path = saveDlg.FileName;
+                        sl.SaveAs("temp.xlsx");
+                        SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
+                        var workbook = ExcelFile.Load("temp.xlsx");
+
+                        foreach (var worksheet in workbook.Worksheets)
+                        {
+                            var printOptions = worksheet.PrintOptions;
+                            printOptions.Portrait = false;
+                            printOptions.PaperType = PaperType.A4;
+                            worksheet.PrintOptions.FitWorksheetWidthToPages = 1;
+                            worksheet.PrintOptions.FitWorksheetHeightToPages = 1;
+                            worksheet.ViewOptions.Zoom = 200;
+                        }
+
+                        var saveOptions = new PdfSaveOptions();
+                        saveOptions.SelectionType = SelectionType.EntireFile;
+                        workbook.Save(path, saveOptions);
+                    }
+
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
+                    finally 
+                    {
+                        File.Delete("temp.xlsx");
+                        Cursor = Cursors.Default;
+                    }
+                }
+            }
         }
 
         private void txt_AccessoryQuantity_KeyPress(object sender, KeyPressEventArgs e)
         {
             Main.OnlyDigits(e);
+        }
+
+        private void btn_SaveAs_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
