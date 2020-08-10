@@ -149,10 +149,11 @@
             this.Controls.Add(this.txt_Project);
             this.Controls.Add(this.txt_OrderNo);
             this.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frm_ProjectData";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Project Data";
+            this.Load += new System.EventHandler(this.frm_ProjectData_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

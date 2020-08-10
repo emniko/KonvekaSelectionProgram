@@ -935,7 +935,7 @@ namespace KonekaSelectionProgram
                     string Quantity = selectedrow.Cells["Quantity"].Value.ToString();
                     double price = double.Parse(selectedrow.Cells["Price"].Value.ToString());
                     //adding rows to Offer
-                  dgv_OfferTable.Rows.Add(productCount, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, "", model, length, width, height, color, grilleMaterial, heatOutput, coolingCapacity, Quantity, price, "", ID, "C");
+                   dgv_OfferTable.Rows.Add(productCount, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, "", model, length, width, height, color, grilleMaterial, heatOutput, coolingCapacity, Quantity, price, "", ID, "C");
                     productCount++;
                     //checking grille requirement agian 
                     if (cmb_GrillsType.SelectedValue.ToString() == "2" || cmb_GrillsType.SelectedValue.ToString() == "3")
@@ -1068,53 +1068,98 @@ namespace KonekaSelectionProgram
                 //basic information 
                 //  sl.SetCellValue("O9", "Date: " + DateTime.Now.ToShortDateString());
                 sl.SetCellValue("O9", "Date: " + ProjectData.Date);
-                string grandTotal = getGrandTotal().ToString();
+                double grandTotal = getGrandTotal();
+                sl.SetCellValue("AD14", grandTotal);
                 sl.SetCellValue("AD14", grandTotal);
                 sl.SetCellValue("C12", ProjectData.Customer);
                 sl.SetCellValue("C13", ProjectData.ContactPerson);
                 sl.SetCellValue("C14", ProjectData.Project);
+                sl.SetCellValue("P8", ProjectData.OrderNo   );
+
 
 
                 for (int i = 0; i < dgv_OfferTable.RowCount; i++)
                 {
                     //Inquiry
-                    string lnLength = dgv_OfferTable.Rows[i].Cells["InLength"].Value.ToString();
-                    string lnWidth = dgv_OfferTable.Rows[i].Cells["InWidth"].Value.ToString();
-                    string lnHeight = dgv_OfferTable.Rows[i].Cells["Height3"].Value.ToString();
-                    string lnHeatOutput = dgv_OfferTable.Rows[i].Cells["InHeatOutput"].Value.ToString();
-                    string lnCooling = dgv_OfferTable.Rows[i].Cells["CoolingCapacityI"].Value.ToString();
-                    sl.SetCellValue("B" + count, lnLength);
-                    sl.SetCellValue("C" + count, lnWidth);
-                    sl.SetCellValue("D" + count, lnHeight);
-                    sl.SetCellValue("E" + count, lnHeatOutput);
-                    sl.SetCellValue("I" + count, lnCooling);
+                    double lnLength = (dgv_OfferTable.Rows[i].Cells["InLength"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["InLength"].Value) : 0;
+                    double lnWidth = (dgv_OfferTable.Rows[i].Cells["InWidth"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["InWidth"].Value) : 0;
+                    double lnHeight = (dgv_OfferTable.Rows[i].Cells["Height3"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["Height3"].Value) : 0;
+                    double lnHeatOutput = (dgv_OfferTable.Rows[i].Cells["InHeatOutput"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["InHeatOutput"].Value) : 0;
+                    double lnCooling = (dgv_OfferTable.Rows[i].Cells["CoolingCapacityI"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["CoolingCapacityI"].Value) : 0;
+                    if (lnLength != 0)
+                    {
+                        sl.SetCellValue("B" + count, lnLength);
+                    }
+                    if (lnWidth != 0)
+                    {
+                        sl.SetCellValue("C" + count, lnWidth);
+                    }
+                    if (lnHeight != 0)
+                    {
+                        sl.SetCellValue("D" + count, lnHeight);
+                    }
+                    if (lnHeatOutput != 0)
+                    {
+                        sl.SetCellValue("E" + count, lnHeatOutput);
+                    }
+                    if (lnCooling != 0)
+                    {
+                        sl.SetCellValue("I" + count, lnCooling);
+                    }
 
                     //suggestions
 
                     string SuName = dgv_OfferTable.Rows[i].Cells["Name"].Value.ToString();
                     string SuModel = dgv_OfferTable.Rows[i].Cells["SuModel"].Value.ToString();
-                    string SuLength = dgv_OfferTable.Rows[i].Cells["SuLength"].Value.ToString();
-                    string SuWidth = dgv_OfferTable.Rows[i].Cells["Width2"].Value.ToString();
-                    string SuHeight = dgv_OfferTable.Rows[i].Cells["Height2"].Value.ToString();
+                    double SuLength = (dgv_OfferTable.Rows[i].Cells["SuLength"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["SuLength"].Value) : 0;
+                    double SuWidth = (dgv_OfferTable.Rows[i].Cells["Width2"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["Width2"].Value) : 0;
+                    double SuHeight = (dgv_OfferTable.Rows[i].Cells["Height2"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["Height2"].Value) : 0;
                     string SuColor = dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString();
-                    string SuHeatoutput = dgv_OfferTable.Rows[i].Cells["SuHeatOutput"].Value.ToString();
-                    string SuCooling = dgv_OfferTable.Rows[i].Cells["SuCoolingCapacity"].Value.ToString();
-                    string SuQuantity = dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString();
-                    string SuPrice = dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString();
-                    string SuTotal = dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString();
+                    double SuHeatoutput = (dgv_OfferTable.Rows[i].Cells["SuHeatOutput"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["SuHeatOutput"].Value) : 0;
+                    double SuCooling = (dgv_OfferTable.Rows[i].Cells["SuCoolingCapacity"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["SuCoolingCapacity"].Value) : 0;
+                    double SuQuantity = (dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["Qualntity"].Value) : 0;
+                    double SuPrice = (dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["Price1"].Value) : 0;
+                    double SuTotal = (dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value) : 0;
 
                     sl.SetCellValue("M" + count, no);
                     sl.SetCellValue("N" + count, SuName);
                     sl.SetCellValue("O" + count, SuModel);
-                    sl.SetCellValue("P" + count, SuLength);
-                    sl.SetCellValue("Q" + count, SuWidth);
-                    sl.SetCellValue("R" + count, SuHeight);
+
+                    if (SuLength != 0)
+                    {
+                        sl.SetCellValue("P" + count, SuLength);
+                    }
+                    if (SuWidth != 0)
+                    {
+                        sl.SetCellValue("Q" + count, SuWidth);
+                    }
+                    if (SuHeight != 0)
+                    {
+                        sl.SetCellValue("R" + count, SuHeight);
+                    }
+
                     sl.SetCellValue("S" + count, SuColor);
-                    sl.SetCellValue("T" + count, SuHeatoutput);
-                    sl.SetCellValue("X" + count, SuCooling);
-                    sl.SetCellValue("AB" + count, SuQuantity);
-                    sl.SetCellValue("AC" + count, SuPrice);
-                    sl.SetCellValue("AD" + count, SuTotal);
+
+                    if (SuHeatoutput != 0)
+                    {
+                        sl.SetCellValue("T" + count, SuHeatoutput);
+                    }
+                    if (SuCooling != 0)
+                    {
+                        sl.SetCellValue("X" + count, SuCooling);
+                    }
+                    if (SuQuantity != 0)
+                    {
+                        sl.SetCellValue("AB" + count, SuQuantity);
+                    }
+                    if (SuPrice != 0)
+                    {
+                        sl.SetCellValue("AC" + count, SuPrice);
+                    }
+                    if (SuTotal != 0)
+                    {
+                        sl.SetCellValue("AD" + count, SuTotal);
+                    }
 
                     count++;
                     no++;
@@ -1185,7 +1230,7 @@ namespace KonekaSelectionProgram
                     string SuHeatoutput = dgv_OfferTable.Rows[i].Cells["SuHeatOutput"].Value.ToString();
                     string SuCooling = dgv_OfferTable.Rows[i].Cells["SuCoolingCapacity"].Value.ToString();
                     string SuQuantity = dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString();
-                    double SuPrice = double.Parse(dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString());
+                    string SuPrice = dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString();
                     string SuTotal = dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString();
 
                     sl.SetCellValue("M" + count, no);

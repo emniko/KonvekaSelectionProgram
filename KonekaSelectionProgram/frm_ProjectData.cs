@@ -28,14 +28,12 @@ namespace KonekaSelectionProgram
             MessageBox.Show("Data saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void frm_ProjectData_Load(object sender, EventArgs e)
         {
-            MessageBox.Show(ProjectData.Date);
-            MessageBox.Show(ProjectData.OrderNo);
-            MessageBox.Show(ProjectData.Project);
-            MessageBox.Show(ProjectData.Customer);
-            MessageBox.Show(ProjectData.ContactPerson);
-
+            txt_OrderNo.Text = ProjectData.OrderNo;
+            txt_Project.Text = ProjectData.Project;
+            txt_Customer.Text = ProjectData.Customer;
+            txt_ContactPerson.Text = ProjectData.ContactPerson;
         }
     }
 }
