@@ -1011,6 +1011,7 @@
             this.dgv_GrilleProducts.RowTemplate.Height = 24;
             this.dgv_GrilleProducts.Size = new System.Drawing.Size(851, 62);
             this.dgv_GrilleProducts.TabIndex = 72;
+            this.dgv_GrilleProducts.Visible = false;
             this.dgv_GrilleProducts.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_GrilleProducts_CellContentClick);
             // 
             // ID1

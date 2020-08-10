@@ -1185,7 +1185,7 @@ namespace KonekaSelectionProgram
                     string SuHeatoutput = dgv_OfferTable.Rows[i].Cells["SuHeatOutput"].Value.ToString();
                     string SuCooling = dgv_OfferTable.Rows[i].Cells["SuCoolingCapacity"].Value.ToString();
                     string SuQuantity = dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString();
-                    string SuPrice = dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString();
+                    double SuPrice = double.Parse(dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString());
                     string SuTotal = dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString();
 
                     sl.SetCellValue("M" + count, no);
@@ -1200,7 +1200,7 @@ namespace KonekaSelectionProgram
                     sl.SetCellValue("AB" + count, SuQuantity);
                     sl.SetCellValue("AC" + count, SuPrice);
                     sl.SetCellValue("AD" + count, SuTotal);
-
+                    
                     count++;
                     no++;
                 }
