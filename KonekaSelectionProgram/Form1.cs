@@ -106,7 +106,7 @@ namespace KonekaSelectionProgram
             dgv_OfferTable.Columns["TotalEuro1"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
         }
-        private void calculateDifference()
+        private void calculateHeatingDifference()
         {
             if (txt_HeatOutput.Text != "")
             {
@@ -125,7 +125,7 @@ namespace KonekaSelectionProgram
                     dgv_Suggestion.Rows[i].Cells["HeatingDifferenceW"].Value = difference;
 
                     //calculate percentage
-                    double average = 500 + 566;
+                    double average = givenHeatOutput + heatOutput;
                     average = average / 2;
                     average = difference / average;
                     percentage = average * 100;
@@ -134,29 +134,68 @@ namespace KonekaSelectionProgram
                 }
             }
         }
+        private void calculateCoolingDifference()
+        {
+            if (txt_CoolingCapacity.Text != "")
+            {
+                double heatOutput = -1;
+                double givenHeatOutput = 0;
+                double difference = 0;
+                double percentage = 0;
+                double.TryParse(txt_CoolingCapacity.Text, out givenHeatOutput);
+                for (int i = 0; i < dgv_Suggestion.RowCount; i++)
+                {
+                    //calculate difference 
+                    string heatOUTPUT = dgv_Suggestion.Rows[i].Cells["CoolingCapacity"].Value.ToString();
+                    double.TryParse(heatOUTPUT, out heatOutput);
+                    difference = givenHeatOutput - heatOutput;
+                    difference = Math.Abs(difference);
+                    dgv_Suggestion.Rows[i].Cells["CoolingDifferenceW"].Value = difference;
+                    //calculate percentage
+                    double average = givenHeatOutput + heatOutput;
+                    average = average / 2;
+                    average = difference / average;
+                    percentage = average * 100;
+                    percentage = Math.Round(percentage, 0);
+                    dgv_Suggestion.Rows[i].Cells["CoolingDifferencePercent"].Value = percentage;
+                }
+            }
+        }
+        private void CalculateDifference()
+        {
+            if (rd_Heating.Checked == true)
+            {
+                calculateHeatingDifference();
+            }
+            else
+            {
+                calculateCoolingDifference();
+            }
+        }
         private void UpdatePriceInOfferTable()
         {
             string pricebase = getPriceBase();
-            double price =0;
+            double price = 0;
             for (int i = 0; i < dgv_OfferTable.RowCount; i++)
             {
-                string SearchType =  dgv_OfferTable.Rows[i].Cells["SearchType"].Value.ToString();
+                string SearchType = dgv_OfferTable.Rows[i].Cells["SearchType"].Value.ToString();
                 string ID = dgv_OfferTable.Rows[i].Cells["SearchID"].Value.ToString();
                 if (SearchType == "C")
                 {
-                    price= double.Parse(SQL.ScalarQuery("select " + pricebase + " from Convectors where ID = " + ID + ""));
+                    price = double.Parse(SQL.ScalarQuery("select " + pricebase + " from Convectors where ID = " + ID + ""));
 
                 }
                 else if (SearchType == "G")
                 {
-                     price = double.Parse(SQL.ScalarQuery("select " + pricebase + " from GrilleProducts where ID  = " + ID + ""));
+                    price = double.Parse(SQL.ScalarQuery("select " + pricebase + " from GrilleProducts where ID  = " + ID + ""));
 
                 }
                 else if (SearchType == "A")
                 {
-                     price = double.Parse(SQL.ScalarQuery("select " + pricebase + " from Accessories where ID = " + ID + ""));
+                    price = double.Parse(SQL.ScalarQuery("select " + pricebase + " from Accessories where ID = " + ID + ""));
 
                 }
+                price = Math.Round(price, 2);
                 dgv_OfferTable.Rows[i].Cells["Price1"].Value = price;
             }
 
@@ -179,6 +218,50 @@ namespace KonekaSelectionProgram
             }
             return grandTotal;
 
+        }
+        private void GenerateDiscount(double value)
+        {
+            try
+            {
+                for (int i = 0; i < dgv_OfferTable.RowCount; i++)
+                {
+                    double total = 0;
+                    double discount = 0;
+                    if (double.TryParse(dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString(), out total))
+                    {
+                        discount = total * (value / 100);
+                        total = total - discount;
+                        total = Math.Round(total, 2);
+                        dgv_OfferTable.Rows[i].Cells["Price1"].Value = total;
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+        private void GenerateCorrection(double value)
+        {
+            try
+            {
+                for (int i = 0; i < dgv_OfferTable.RowCount; i++)
+                {
+                    double total = 0;
+                    double correction = 0;
+                    if (double.TryParse(dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString(), out total))
+                    {
+                        correction = total * (value / 100);
+                        total = total + correction;
+                        total = Math.Round(total, 2);
+                        dgv_OfferTable.Rows[i].Cells["Price1"].Value = total;
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
         private void generateNumber()
         {
@@ -218,9 +301,13 @@ namespace KonekaSelectionProgram
             {
                 for (int i = 0; i < dgv_OfferTable.RowCount; i++)
                 {
-                    string ID = dgv_OfferTable.Rows[i].Cells["ID2"].Value.ToString();
-                    string name = SQL.ScalarQuery("select Name from convectors where ID  = " + ID + "");
-                    dgv_OfferTable.Rows[i].Cells["Name"].Value = name;
+                    string SearchType = dgv_OfferTable.Rows[i].Cells["SearchType"].Value.ToString();
+                    if (SearchType == "C")
+                    {
+                        string ID = dgv_OfferTable.Rows[i].Cells["SearchID"].Value.ToString();
+                        string name = SQL.ScalarQuery("select Name from convectors where ID  = " + ID + "");
+                        dgv_OfferTable.Rows[i].Cells["Name"].Value = name;
+                    }
                 }
             }
             catch (Exception ex)
@@ -237,14 +324,14 @@ namespace KonekaSelectionProgram
                 {
                     string ID = dgv_Suggestion.Rows[i].Cells["ID"].Value.ToString();
                     double price = double.Parse(SQL.ScalarQuery("select " + pricebase + " from Convectors	where ID = " + ID + ""));
-                    dgv_Suggestion.Rows[i].Cells["Price"].Value = Math.Round(price,2);
+                    dgv_Suggestion.Rows[i].Cells["Price"].Value = Math.Round(price, 2);
                 }
             }
             catch (Exception)
             {
 
             }
-            
+
         }
         private void enable_disableFanSpeed(string text)
         {
@@ -265,8 +352,10 @@ namespace KonekaSelectionProgram
             //Grilles Types
             Main.fillComboWithoutCondition(cmb_GrillsType, "GrillType", "Type", "ID");
 
+            dgv_Suggestion.AllowUserToOrderColumns = false; 
 
-            changeInTemerature();
+            changeInTemeratureForHeating();
+            changeInTemeratureForCooling();
             AlignSuggestionGrid();
             AlignOfferGrid();
 
@@ -292,11 +381,13 @@ namespace KonekaSelectionProgram
             if (cmb_ConvectorsInstallationType.SelectedValue.ToString() == "2" || cmb_ConvectorsInstallationType.SelectedValue.ToString() == "3")
             {
                 txt_Color.Text = "9016";
+                txt_Color.Enabled = true;
+
             }
             else
             {
                 txt_Color.Clear();
-
+                txt_Color.Enabled = false;
             }
             //enable / disable fanspeed
             enable_disableFanSpeed(cmb_Type.Text);
@@ -434,19 +525,22 @@ namespace KonekaSelectionProgram
 
         private void txt_Incoming_Heating_TextChanged(object sender, EventArgs e)
         {
-            changeInTemerature();
+            changeInTemeratureForHeating();
+
         }
         private void txt_Outgoing_Heating_TextChanged(object sender, EventArgs e)
         {
-            changeInTemerature();
+            changeInTemeratureForHeating();
+
         }
 
         private void txt_Room_Heating_TextChanged(object sender, EventArgs e)
         {
-            changeInTemerature();
+            changeInTemeratureForHeating();
+
         }
         //calculating change in temperature 
-        private bool changeInTemerature()
+        private bool changeInTemeratureForHeating()
         {
             double IncommingTemp = 0, OutgoingTemp = 0, RoomTeamperature = 0, ChangeInTemperature = 0;
             bool val = false;
@@ -464,7 +558,25 @@ namespace KonekaSelectionProgram
             }
             return val;
         }
-
+        private bool changeInTemeratureForCooling()
+        {
+            double IncommingTemp = 0, OutgoingTemp = 0, RoomTeamperature = 0, ChangeInTemperature = 0;
+            bool val = false;
+            if (double.TryParse(txt_Incoming_Cooling.Text, out IncommingTemp))
+            {
+                if (double.TryParse(txt_Outgoing_Cooling.Text, out OutgoingTemp))
+                {
+                    if (double.TryParse(txt_Room_Cooling.Text, out RoomTeamperature))
+                    {
+                        ChangeInTemperature = (IncommingTemp + OutgoingTemp) / 2 - RoomTeamperature;
+                        ChangeInTemperature = Math.Abs(ChangeInTemperature);
+                        txt_DeltaT_Cooling.Text = ChangeInTemperature.ToString();
+                        val = true;
+                    }
+                }
+            }
+            return val;
+        }
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -475,14 +587,17 @@ namespace KonekaSelectionProgram
             else
             {
                 //GetRecord(string model, double lenght, double width, double height, double changeInTemperature, double fanSpeed)
-                double length = 0, width = 0, height = 0, heatOutput = 0, changeInTemperature = 0, fanSpeed = 0;
+                double length = 0, width = 0, height = 0, heatOutput = 0, CoolingCapacity=0, changeInTemperature = 0, changeInTemperatureCooling=0, fanSpeed = 0;
                 double.TryParse(txt_Length.Text, out length);
                 double.TryParse(txt_Width.Text, out width);
                 double.TryParse(txt_Height.Text, out height);
                 double.TryParse(txt_HeatingChangeInTemperature.Text, out changeInTemperature);
+                double.TryParse(txt_DeltaT_Cooling.Text, out changeInTemperatureCooling);
+
                 // double.TryParse(cmb_HeatingFanSpeed.Text, out fanSpeed);
                 fanSpeed = getFanSpeedValue();
                 double.TryParse(txt_HeatOutput.Text, out heatOutput);
+                double.TryParse(txt_CoolingCapacity.Text, out CoolingCapacity);
 
                 //getting values for suggestion
                 _InquiryLength = txt_Length.Text;
@@ -492,8 +607,20 @@ namespace KonekaSelectionProgram
                 _InquiryHeatOutput = txt_HeatOutput.Text;
                 _InquiryCooling = txt_CoolingCapacity.Text;
 
-                StoreProcedure.UpdateData(changeInTemperature, fanSpeed);
-                Search(dgv_Suggestion, _InquiryModel, length, width, height, heatOutput);
+                if (rd_Heating.Checked==true)
+                {
+                    StoreProcedure.UpdateData(changeInTemperature, fanSpeed);
+                    SearchHeating(dgv_Suggestion, _InquiryModel, length, width, height, heatOutput);
+                  
+
+                }
+                else
+                {
+                    StoreProcedure.UpdateData(changeInTemperatureCooling, fanSpeed);
+                    SearchCooling(dgv_Suggestion, _InquiryModel, length, width, height, CoolingCapacity);
+                    
+                }
+                CalculateDifference();
                 if (cmb_GrillsType.SelectedValue.ToString() == "2" || cmb_GrillsType.SelectedValue.ToString() == "3")
                 {
                     grillRequire = true;
@@ -509,7 +636,6 @@ namespace KonekaSelectionProgram
 
                 //add prices to the grid 
                 updatePricesInSuggestionGrid();
-                calculateDifference();
             }
         }
         #region SearchForEqualRecord
@@ -590,93 +716,178 @@ namespace KonekaSelectionProgram
             }
         }
         #endregion
-        public void Search(DataGridView dataGridView, string Model, double Length, double Width, double Height, double HeatOutput)
+        public void SearchHeating(DataGridView dataGridView, string Model, double Length, double Width, double Height, double HeatOutput)
         {
+            SQL.NonScalarQuery("update Convectors set CoolingCapacity = NULL");
+
             //1
             if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_HeatOutput.Text == "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Length <= " + Length + " order by HeatOutput asc");
-
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Length <= " + Length + " order by HeatOutput asc");
             }
             //2
             else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_HeatOutput.Text == "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Width <= " + Width + " order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Width <= " + Width + " order by HeatOutput asc");
 
             }
             //3
             else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Height <= " + Height + " order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Height <= " + Height + " order by HeatOutput asc");
 
             }
             //4
             else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_HeatOutput.Text != "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and HeatOutput >= " + HeatOutput + " order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and HeatOutput >= " + HeatOutput + " order by HeatOutput asc");
             }
             //5
             else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_HeatOutput.Text == "")
             {
-                Main.fillDgv(dataGridView, "select Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Width <= " + Width + "  order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Width <= " + Width + "  order by HeatOutput asc");
             }
             //6
             else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Height <= " + Height + "  order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Height <= " + Height + "  order by HeatOutput asc");
             }
             //7
             else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_HeatOutput.Text != "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Length <= " + Length + " and HeatOutput >= " + HeatOutput + "  order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Length <= " + Length + " and HeatOutput >= " + HeatOutput + "  order by HeatOutput asc");
             }
             //8
             else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Width <= " + Width + " and Height <= " + Height + "  order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Width <= " + Width + " and Height <= " + Height + "  order by HeatOutput asc");
             }
             //9
             else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_HeatOutput.Text != "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Width <= " + Width + " and HeatOutput >= " + HeatOutput + "  order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Width <= " + Width + " and HeatOutput >= " + HeatOutput + "  order by HeatOutput asc");
             }
             //10
             else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Height <= " + Height + " and HeatOutput >= " + HeatOutput + "  order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Height <= " + Height + " and HeatOutput >= " + HeatOutput + "  order by HeatOutput asc");
             }
             //11
             else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text == "")
             {
-                Main.fillDgv(dataGridView, "select Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Width <= " + Width + "  and Height <=" + Height + " order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Width <= " + Width + "  and Height <=" + Height + " order by HeatOutput asc");
 
             }
             //12
             else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Height <= " + Height + "  and HeatOutput >=" + HeatOutput + " order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Height <= " + Height + "  and HeatOutput >=" + HeatOutput + " order by HeatOutput asc");
             }
             //13
             else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
             {
-                Main.fillDgv(dataGridView, "select Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Width <= " + Width + " and Height <= " + Height + "  and HeatOutput >=" + HeatOutput + " order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Width <= " + Width + " and Height <= " + Height + "  and HeatOutput >=" + HeatOutput + " order by HeatOutput asc");
 
             }
             //14
             else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_HeatOutput.Text != "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Length <=" + Length + " and Width <= " + Width + " and Height <= " + Height + " and HeatOutput >=" + HeatOutput + " order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Length <=" + Length + " and Width <= " + Width + " and Height <= " + Height + " and HeatOutput >=" + HeatOutput + " order by HeatOutput asc");
             }
             //15 Length,Width,HEatoutput
             else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_HeatOutput.Text != "")
             {
-                Main.fillDgv(dataGridView, "select  Top 8  ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput from Convectors where model  = '" + Model + "' and Length <=" + Length + " and Width <= " + Width + "  and HeatOutput >=" + HeatOutput + " order by HeatOutput asc");
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,ABS(round(HeatOutput,0)) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity  from Convectors where model  = '" + Model + "' and Length <=" + Length + " and Width <= " + Width + "  and HeatOutput >=" + HeatOutput + " order by HeatOutput asc");
             }
         }
 
 
+        public void SearchCooling(DataGridView dataGridView, string Model, double Length, double Width, double Height, double HeatOutput)
+        {
+            SQL.NonScalarQuery("update Convectors set HeatOutput = NULL");
 
 
+            //1
+            if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_CoolingCapacity.Text == "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Length <= " + Length + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+
+            }
+            //2
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_CoolingCapacity.Text == "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Width <= " + Width + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+
+            }
+            //3
+            else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_CoolingCapacity.Text == "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Height <= " + Height + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+
+            }
+            //4
+            else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_CoolingCapacity.Text != "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and CoolingCapacity >= " + HeatOutput + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+            }
+            //5
+            else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_CoolingCapacity.Text == "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Width <= " + Width + "and ID between 1009 and 1028   order by CoolingCapacity asc");
+            }
+            //6
+            else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_CoolingCapacity.Text == "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Height <= " + Height + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+            }
+            //7
+            else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text == "" && txt_CoolingCapacity.Text != "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Length <= " + Length + " and CoolingCapacity >= " + HeatOutput + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+            }
+            //8
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_CoolingCapacity.Text == "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Width <= " + Width + " and Height <= " + Height + " and ID between 1009 and 1028   order by CoolingCapacity asc");
+            }
+            //9
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_CoolingCapacity.Text != "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Width <= " + Width + " and CoolingCapacity >= " + HeatOutput + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+            }
+            //10
+            else if (txt_Length.Text == "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_CoolingCapacity.Text != "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Height <= " + Height + " and CoolingCapacity >= " + HeatOutput + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+            }
+            //11
+            else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_CoolingCapacity.Text == "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Width <= " + Width + "  and Height <=" + Height + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+
+            }
+            //12
+            else if (txt_Length.Text != "" && txt_Width.Text == "" && txt_Height.Text != "" && txt_CoolingCapacity.Text != "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Length <= " + Length + " and Height <= " + Height + "  and CoolingCapacity >=" + HeatOutput + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+            }
+            //13
+            else if (txt_Length.Text == "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_CoolingCapacity.Text != "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Width <= " + Width + " and Height <= " + Height + "  and CoolingCapacity >=" + HeatOutput + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+
+            }
+            //14
+            else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text != "" && txt_CoolingCapacity.Text != "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Length <=" + Length + " and Width <= " + Width + " and Height <= " + Height + " and CoolingCapacity >=" + HeatOutput + " and ID between 1009 and 1028  order by CoolingCapacity asc");
+            }
+            //15 Length,Width,HEatoutput
+            else if (txt_Length.Text != "" && txt_Width.Text != "" && txt_Height.Text == "" && txt_CoolingCapacity.Text != "")
+            {
+                Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,round(HeatOutput,0) as HeatOutput,round(CoolingCapacity,0) as CoolingCapacity from Convectors where model  = '" + Model + "' and Length <=" + Length + " and Width <= " + Width + "  and HeatOutput >=" + HeatOutput + " and ID between 1009 and 1028   order by CoolingCapacity asc");
+            }
+        }
 
         public string getGrillMaterail(string grille)
         {
@@ -690,12 +901,13 @@ namespace KonekaSelectionProgram
             {
                 string ID = dataGridView.Rows[0].Cells["ID1"].Value.ToString();
                 string model = dataGridView.Rows[0].Cells["Model1"].Value.ToString();
+                string name = dataGridView.Rows[0].Cells["Name1"].Value.ToString();
                 string length = dataGridView.Rows[0].Cells["Length1"].Value.ToString();
                 string width = dataGridView.Rows[0].Cells["Width1"].Value.ToString();
                 string height = dataGridView.Rows[0].Cells["Height1"].Value.ToString();
                 string material = dataGridView.Rows[0].Cells["Material1"].Value.ToString();
                 double price = double.Parse(SQL.ScalarQuery("select " + getPriceBase() + " from GrilleProducts where ID  = " + ID + ""));
-                dgv_OfferTable.Rows.Add(productCount, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, Model, "", length, width, "", "", material, "", "", Quantity, price, "",ID,"G");
+                dgv_OfferTable.Rows.Add(productCount, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling,name, Model, length, width, "", "", material, "", "", Quantity, price, "", ID, "G");
                 productCount++;
             }
         }
@@ -703,16 +915,12 @@ namespace KonekaSelectionProgram
         {
             try
             {
-
-
                 var senderGrid = (DataGridView)sender;
                 int index = e.RowIndex;
                 DataGridViewRow selectedrow = dgv_Suggestion.Rows[index];
                 if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
                 {
-                    if (selectedrow.Cells["Quantity"].Value.ToString() == null)
-                    {
-                    }
+                    double heatOutput = 0,coolingCapacity=0;
                     //getting required values for suggestions grid
                     int ID = int.Parse(selectedrow.Cells["ID"].Value.ToString());
                     string model = selectedrow.Cells["Model"].Value.ToString();
@@ -721,13 +929,27 @@ namespace KonekaSelectionProgram
                     string height = selectedrow.Cells["Height"].Value.ToString();
                     string color = ""; // i think we should take this from sql 
                     string grilleMaterial = ""; // for convectors its not necessary 
-                    double heatOutput = double.Parse(selectedrow.Cells["Heatoutput"].Value.ToString());
-                    // double CoolingCapacity = double.Parse(selectedrow.Cells["CoolingCapacity"].Value.ToString());
+                    double.TryParse(selectedrow.Cells["Heatoutput"].Value.ToString(), out heatOutput);
+                    double.TryParse(selectedrow.Cells["CoolingCapacity"].Value.ToString(), out coolingCapacity);
+
                     string Quantity = selectedrow.Cells["Quantity"].Value.ToString();
                     double price = double.Parse(selectedrow.Cells["Price"].Value.ToString());
                     //adding rows to Offer
-                    dgv_OfferTable.Rows.Add(productCount, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, _InquiryModel, "", length, width, height, color, grilleMaterial, heatOutput, "Cooling", Quantity, price, "",ID,"C");
+                  dgv_OfferTable.Rows.Add(productCount, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, "", model, length, width, height, color, grilleMaterial, heatOutput, coolingCapacity, Quantity, price, "", ID, "C");
                     productCount++;
+                    //checking grille requirement agian 
+                    if (cmb_GrillsType.SelectedValue.ToString() == "2" || cmb_GrillsType.SelectedValue.ToString() == "3")
+                    {
+                        grillRequire = true;
+                        Grilletype = cmb_GrillsType.SelectedValue.ToString();
+                        GrillMaterail = getGrillMaterail(cmb_GrillsMaterialColor.Text);
+                    }
+                    else
+                    {
+                        grillRequire = false;
+                        Grilletype = "";
+                        GrillMaterail = "";
+                    }
                     //adding grille to offer if needed
                     if (grillRequire == true)
                     {
@@ -745,7 +967,8 @@ namespace KonekaSelectionProgram
                             }
                         }
                     }
-                    calculateDifference();
+                    CalculateDifference();
+
                     calculateTotal();
                     getName();
                 }
@@ -760,11 +983,12 @@ namespace KonekaSelectionProgram
             }
             finally
             {
-                calculateDifference();
+                CalculateDifference();
                 calculateTotal();
                 updatePricesInSuggestionGrid();
                 getName();
                 generateNumber();
+                CheckCorrectionAndDiscount();
             }
         }
 
@@ -794,8 +1018,9 @@ namespace KonekaSelectionProgram
                 string weight = SQL.ScalarQuery("select weight from Accessories where ID = " + cmb_Accessory.SelectedValue + "");
                 string quantity = txt_AccessoryQuantity.Text;
                 //adding rows to Offer
-                dgv_OfferTable.Rows.Add("", "", "", "", "", "", accessory, "", "", "", "", "", "", "", "", quantity, price, "",ID,"A");
+                dgv_OfferTable.Rows.Add("", "", "", "", "", "", "", accessory, "", "", "", "", "", "", "", quantity, price, "", ID, "A");
                 calculateTotal();
+                generateNumber();
             }
 
         }
@@ -805,6 +1030,7 @@ namespace KonekaSelectionProgram
             updatePricesInSuggestionGrid();
             UpdatePriceInOfferTable();
             calculateTotal();
+            CheckCorrectionAndDiscount();
 
         }
 
@@ -1035,6 +1261,167 @@ namespace KonekaSelectionProgram
         }
 
         private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_Incoming_Cooling_TextChanged(object sender, EventArgs e)
+        {
+            changeInTemeratureForCooling();
+
+        }
+
+        private void txt_Outgoing_Cooling_TextChanged(object sender, EventArgs e)
+        {
+            changeInTemeratureForCooling();
+
+        }
+
+        private void txt_Room_Cooling_TextChanged(object sender, EventArgs e)
+        {
+            changeInTemeratureForCooling();
+
+        }
+
+        private void btn_Open_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "Konveka(*.konveka)|*.konveka";
+            openFile.FilterIndex = 0;
+            openFile.RestoreDirectory = true;
+            openFile.Title = "OPNE FILE";
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                string path = openFile.FileName;
+
+                string[] csv_data = File.ReadAllLines(path);
+                dgv_OfferTable.Rows.Clear();
+                for (int i = 0; i < csv_data.Length; i++)
+                {
+                    string[] line = csv_data[i].Split(',');
+                    dgv_OfferTable.Rows.Add(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14], line[15], line[16], line[17]);
+                }
+            }
+              
+        }
+
+        private void btn_Save_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveDlg = new SaveFileDialog();
+            saveDlg.Filter = "Konveka(*.konveka)|*.konveka";
+            saveDlg.FilterIndex = 0;
+            saveDlg.RestoreDirectory = true;
+            saveDlg.Title = "SAVE FILE";
+
+            if (saveDlg.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    Cursor = Cursors.WaitCursor;
+                    string path = saveDlg.FileName;
+                    //saving data to file 
+                    File.WriteAllBytes(path, new byte[] { 0 });
+                    using (StreamWriter sw = File.AppendText(path))
+                    {
+
+                        for (int i = 0; i < dgv_OfferTable.RowCount; i++)
+                        {
+                            //Inquiry
+                            string lnLength = dgv_OfferTable.Rows[i].Cells["InLength"].Value.ToString();
+                            string lnWidth = dgv_OfferTable.Rows[i].Cells["InWidth"].Value.ToString();
+                            string lnHeight = dgv_OfferTable.Rows[i].Cells["Height3"].Value.ToString();
+                            string lnHeatOutput = dgv_OfferTable.Rows[i].Cells["InHeatOutput"].Value.ToString();
+                            string lnCooling = dgv_OfferTable.Rows[i].Cells["CoolingCapacityI"].Value.ToString();
+
+                            //suggestions
+
+                            string SuName = dgv_OfferTable.Rows[i].Cells["Name"].Value.ToString();
+                            string SuModel = dgv_OfferTable.Rows[i].Cells["SuModel"].Value.ToString();
+                            string SuLength = dgv_OfferTable.Rows[i].Cells["SuLength"].Value.ToString();
+                            string SuWidth = dgv_OfferTable.Rows[i].Cells["Width2"].Value.ToString();
+                            string SuHeight = dgv_OfferTable.Rows[i].Cells["Height2"].Value.ToString();
+                            string SuColor = dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString();
+                            string SuMaterail = dgv_OfferTable.Rows[i].Cells["GrilleMaterial"].Value.ToString();
+                            string SuHeatoutput = dgv_OfferTable.Rows[i].Cells["SuHeatOutput"].Value.ToString();
+                            string SuCooling = dgv_OfferTable.Rows[i].Cells["SuCoolingCapacity"].Value.ToString();
+                            string SuQuantity = dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString();
+                            string SuPrice = dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString();
+                            string SuTotal = dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString();
+
+                            int count = i + 1;
+                            sw.WriteLine(count + "," + lnLength + "," + lnWidth + "," + lnHeight + "," + lnHeatOutput + "," + lnCooling + "," + SuName + "," + SuModel + "," + SuLength + "," + SuWidth + "," + SuHeight + "," + SuColor + "," + SuMaterail + "," + SuHeatoutput + "," + SuCooling + "," + SuQuantity + "," + SuPrice + "," + SuTotal);
+                        }
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                finally
+                {
+                    Cursor = Cursors.Default;
+                }
+            }
+
+        }
+        private void clearForm()
+        {
+            //intail data 
+            txt_HeatOutput.Clear();
+            txt_CoolingCapacity.Clear();
+            txt_Length.Clear();
+            txt_Width.Clear();
+            txt_Height.Clear();
+            // suggestions 
+            dgv_Suggestion.DataSource = null;
+            //offer table 
+            dgv_OfferTable.Rows.Clear();
+        }
+        private void btn_New_Click(object sender, EventArgs e)
+        {
+            clearForm();
+        }
+        private void CheckCorrectionAndDiscount()
+        {
+            double discountValue = 0;
+            double correctionValue = 0;
+            UpdatePriceInOfferTable();
+            if (double.TryParse(txt_PriceCorrection.Text, out correctionValue))
+            {
+                GenerateCorrection(correctionValue);
+            }
+            if (double.TryParse(txt_Discount.Text, out discountValue))
+            {
+                GenerateDiscount(discountValue);
+            }
+            //if (discountValue == correctionValue)
+            //{
+            //    UpdatePriceInOfferTable();
+            //}
+            calculateTotal();
+
+        }
+        private void txt_Discount_TextChanged(object sender, EventArgs e)
+        {
+            CheckCorrectionAndDiscount();
+
+        }
+        private void txt_PriceCorrection_TextChanged(object sender, EventArgs e)
+        {
+            CheckCorrectionAndDiscount();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // dgv_Suggestion.DataSource = null;
+           DataTable DT = (DataTable)dgv_Suggestion.DataSource;
+            if (DT != null)
+                DT.Clear();
+        }
+
+        private void dgv_GrilleProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

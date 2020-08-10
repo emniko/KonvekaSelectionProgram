@@ -20,11 +20,11 @@ namespace KonekaSelectionProgram.Classes
         }
         public static void getRollUpGrille(DataGridView dataGridView, double lenght, double width, string materal)
         {
-            Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,Material from GrilleProducts where Model = 'GR' and Length = " + lenght + " and width = " + width + " and material  =  '" + materal + "' ");
+            Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,Material,Name from GrilleProducts where Model = 'GR' and Length = " + lenght + " and width = " + width + " and material  =  '" + materal + "' ");
         }
         public static void getLinearGrille(DataGridView dataGridView, double lenght, double width, string materal)
         {
-            Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,Material from GrilleProducts where Model = 'GR-L' and Length = " + lenght + " and width = " + width + " and material  =  '" + materal + "' ");
+            Main.fillDgv(dataGridView, "select ID,Model,Length,Width,Height,Material,Name from GrilleProducts where Model = 'GR-L' and Length = " + lenght + " and width = " + width + " and material  =  '" + materal + "' ");
         }
     }
 }
