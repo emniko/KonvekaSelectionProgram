@@ -12,6 +12,7 @@ namespace KonekaSelectionProgram
 {
     sealed class Main
     {
+      
         private static int companyID = 2;
         private static string userName;//="admin";
         public static int RDRMID = 1;// = 1;//ROlE DETAIL AND ROLEMASTERID FOR FORM AND REPORTS RIGHTS

@@ -263,6 +263,38 @@ namespace KonekaSelectionProgram
             {
             }
         }
+        private void AddtionalPriceBasedOnColor()
+        {
+            try
+            {
+                for (int i = 0; i < dgv_OfferTable.RowCount; i++)
+                {
+                    double total = 0;
+                    double correction = 0;
+                    double value = 30; // increase percentage value
+                    double quantity = 0;
+                    double.TryParse(dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString(), out  quantity);
+
+                    if (quantity < 30)
+                    {
+                        if (dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString() != "9016")
+                        {
+                            if (double.TryParse(dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString(), out total))
+                            {
+                                correction = total * (value / 100);
+                                total = total + correction;
+                                total = Math.Round(total, 2);
+                                dgv_OfferTable.Rows[i].Cells["Price1"].Value = total;
+                            }
+                        }
+                    }
+                }
+                calculateTotal();
+            }
+            catch (Exception)
+            {
+            }
+        }
         private void generateNumber()
         {
 
@@ -277,6 +309,7 @@ namespace KonekaSelectionProgram
             {
             }
         }
+        
         private void calculateTotal()
         {
             try
@@ -286,6 +319,7 @@ namespace KonekaSelectionProgram
                     double quantity = double.Parse(dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString());
                     double price = double.Parse(dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString());
                     double total = quantity * price;
+                    total = Math.Round(total, 2);
                     dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value = total;
                 }
             }
@@ -345,6 +379,9 @@ namespace KonekaSelectionProgram
         {
             cmb_Pricebase.SelectedIndex = 0;
             cmb_HeatingFanSpeed.SelectedIndex = 0;
+
+        
+
             //installation type
             Main.fillComboWithoutCondition(cmb_ConvectorsInstallationType, "InstallationType", "IntallationType", "IntallationTypeID");
             //accessories
@@ -927,7 +964,7 @@ namespace KonekaSelectionProgram
                     double length = double.Parse(selectedrow.Cells["Length"].Value.ToString());
                     double width = double.Parse(selectedrow.Cells["Width"].Value.ToString());
                     string height = selectedrow.Cells["Height"].Value.ToString();
-                    string color = ""; // i think we should take this from sql 
+                    string color = txt_Color.Text;// ""; // i think we should take this from sql 
                     string grilleMaterial = ""; // for convectors its not necessary 
                     double.TryParse(selectedrow.Cells["Heatoutput"].Value.ToString(), out heatOutput);
                     double.TryParse(selectedrow.Cells["CoolingCapacity"].Value.ToString(), out coolingCapacity);
@@ -968,7 +1005,6 @@ namespace KonekaSelectionProgram
                         }
                     }
                     CalculateDifference();
-
                     calculateTotal();
                     getName();
                 }
@@ -989,6 +1025,7 @@ namespace KonekaSelectionProgram
                 getName();
                 generateNumber();
                 CheckCorrectionAndDiscount();
+                AddtionalPriceBasedOnColor();
             }
         }
 
@@ -1018,7 +1055,7 @@ namespace KonekaSelectionProgram
                 string weight = SQL.ScalarQuery("select weight from Accessories where ID = " + cmb_Accessory.SelectedValue + "");
                 string quantity = txt_AccessoryQuantity.Text;
                 //adding rows to Offer
-                dgv_OfferTable.Rows.Add("", "", "", "", "", "", "", accessory, "", "", "", "", "", "", "", quantity, price, "", ID, "A");
+                dgv_OfferTable.Rows.Add("", "", "", "", "", "", accessory, "", "", "", "", "", "", "", "", quantity, price, "", ID, "A");
                 calculateTotal();
                 generateNumber();
             }
@@ -1031,7 +1068,7 @@ namespace KonekaSelectionProgram
             UpdatePriceInOfferTable();
             calculateTotal();
             CheckCorrectionAndDiscount();
-
+            AddtionalPriceBasedOnColor();
         }
 
         private void btn_Close_Click(object sender, EventArgs e)
@@ -1070,12 +1107,10 @@ namespace KonekaSelectionProgram
                 sl.SetCellValue("O9", "Date: " + ProjectData.Date);
                 double grandTotal = getGrandTotal();
                 sl.SetCellValue("AD14", grandTotal);
-                sl.SetCellValue("AD14", grandTotal);
+                sl.SetCellValue("P8", ProjectData.OrderNo);
                 sl.SetCellValue("C12", ProjectData.Customer);
                 sl.SetCellValue("C13", ProjectData.ContactPerson);
                 sl.SetCellValue("C14", ProjectData.Project);
-                sl.SetCellValue("P8", ProjectData.OrderNo   );
-
 
 
                 for (int i = 0; i < dgv_OfferTable.RowCount; i++)
@@ -1121,6 +1156,7 @@ namespace KonekaSelectionProgram
                     double SuPrice = (dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["Price1"].Value) : 0;
                     double SuTotal = (dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value) : 0;
 
+
                     sl.SetCellValue("M" + count, no);
                     sl.SetCellValue("N" + count, SuName);
                     sl.SetCellValue("O" + count, SuModel);
@@ -1137,9 +1173,14 @@ namespace KonekaSelectionProgram
                     {
                         sl.SetCellValue("R" + count, SuHeight);
                     }
-
-                    sl.SetCellValue("S" + count, SuColor);
-
+                    if (IsAllDigits(SuColor) && SuColor != "")
+                    {
+                        sl.SetCellValue("S" + count, Convert.ToDouble(SuColor));
+                    }
+                    else
+                    {
+                        sl.SetCellValue("S" + count, SuColor);
+                    }
                     if (SuHeatoutput != 0)
                     {
                         sl.SetCellValue("T" + count, SuHeatoutput);
@@ -1166,7 +1207,7 @@ namespace KonekaSelectionProgram
                 }
 
                 SaveFileDialog saveDlg = new SaveFileDialog();
-                saveDlg.Filter = "Excel files (*.xlsx)|*.xlsx";
+                saveDlg.Filter = "Excel files (.xlsx)|.xlsx";
                 saveDlg.FilterIndex = 0;
                 saveDlg.RestoreDirectory = true;
                 saveDlg.Title = "Export Excel File To";
@@ -1193,6 +1234,8 @@ namespace KonekaSelectionProgram
                 }
             }
         }
+
+        bool IsAllDigits(string s) => s.All(char.IsDigit);
 
         private void btn_Print_Click(object sender, EventArgs e)
         {
@@ -1451,11 +1494,13 @@ namespace KonekaSelectionProgram
         private void txt_Discount_TextChanged(object sender, EventArgs e)
         {
             CheckCorrectionAndDiscount();
-
+            AddtionalPriceBasedOnColor();
         }
         private void txt_PriceCorrection_TextChanged(object sender, EventArgs e)
         {
             CheckCorrectionAndDiscount();
+            AddtionalPriceBasedOnColor();
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -1468,6 +1513,22 @@ namespace KonekaSelectionProgram
 
         private void dgv_GrilleProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_HeatOutput_MouseMove(object sender, MouseEventArgs e)
+        {
+            //(sender as TextBox).SelectionLength = 0;
+        }
+
+        private void cmb_Pricebase_MouseMove(object sender, MouseEventArgs e)
+        {
+            (sender as ComboBox).SelectionLength = 0;
 
         }
     }
