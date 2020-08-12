@@ -20,7 +20,7 @@ namespace KonekaSelectionProgram
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            ProjectData.Date = dtp_Date.Value.ToShortDateString();
+            ProjectData.Date = dtp_Date.Value.ToString("yyyy-MM-dd");
             ProjectData.OrderNo = txt_OrderNo.Text;
             ProjectData.Project = txt_Project.Text;
             ProjectData.Customer = txt_Customer.Text;
@@ -30,6 +30,7 @@ namespace KonekaSelectionProgram
 
         private void frm_ProjectData_Load(object sender, EventArgs e)
         {
+          
             txt_OrderNo.Text = ProjectData.OrderNo;
             txt_Project.Text = ProjectData.Project;
             txt_Customer.Text = ProjectData.Customer;

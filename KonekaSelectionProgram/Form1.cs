@@ -93,7 +93,7 @@ namespace KonekaSelectionProgram
             dgv_OfferTable.Columns["InHeatOutput"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgv_OfferTable.Columns["CoolingCapacityI"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgv_OfferTable.Columns["SuModel"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dgv_OfferTable.Columns["Name"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgv_OfferTable.Columns["Name"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dgv_OfferTable.Columns["SuLength"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgv_OfferTable.Columns["Width2"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgv_OfferTable.Columns["Height2"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -263,20 +263,47 @@ namespace KonekaSelectionProgram
             {
             }
         }
-        private void AddtionalPriceBasedOnColor()
+        private double Get9016Quantity()
         {
+            double TotalQuantity = 0;
+
             try
             {
                 for (int i = 0; i < dgv_OfferTable.RowCount; i++)
                 {
-                    double total = 0;
-                    double correction = 0;
-                    double value = 30; // increase percentage value
                     double quantity = 0;
-                    double.TryParse(dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString(), out  quantity);
+                    double.TryParse(dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString(), out quantity);
 
-                    if (quantity < 30)
+                    if (dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString() != "9016")
                     {
+                        TotalQuantity += quantity;
+                    }
+                }
+                return TotalQuantity;
+            }
+            catch (Exception)
+            {
+                return TotalQuantity;
+            }
+            finally
+            {
+            }
+        }
+        private void AddtionalPriceBasedOnColor()
+        {
+            try
+            {
+                if (Get9016Quantity() < 30)
+                {
+
+                    for (int i = 0; i < dgv_OfferTable.RowCount; i++)
+                    {
+                        double total = 0;
+                        double correction = 0;
+                        double value = 30; // increase percentage value
+                        double quantity = 0;
+                        double.TryParse(dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString(), out quantity);
+
                         if (dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString() != "9016")
                         {
                             if (double.TryParse(dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString(), out total))
@@ -309,7 +336,7 @@ namespace KonekaSelectionProgram
             {
             }
         }
-        
+
         private void calculateTotal()
         {
             try
@@ -375,12 +402,25 @@ namespace KonekaSelectionProgram
             }
             else cmb_HeatingFanSpeed.Enabled = false;
         }
+        private void lockApplication()
+        {
+            DateTime StartDate = new DateTime(2020, 08, 10);
+            DateTime EndDate = DateTime.Now;
+            int days = (EndDate.Date - StartDate.Date).Days;
+            // MessageBox.Show(days.ToString());
+            if (days > 30)
+            {
+                MessageBox.Show("Software has enconter un expected error");
+                Application.Exit();
+            }
+        }
         private void cmb_ConvectorsType_Load(object sender, EventArgs e)
         {
+            lockApplication();
             cmb_Pricebase.SelectedIndex = 0;
             cmb_HeatingFanSpeed.SelectedIndex = 0;
 
-        
+
 
             //installation type
             Main.fillComboWithoutCondition(cmb_ConvectorsInstallationType, "InstallationType", "IntallationType", "IntallationTypeID");
@@ -389,7 +429,7 @@ namespace KonekaSelectionProgram
             //Grilles Types
             Main.fillComboWithoutCondition(cmb_GrillsType, "GrillType", "Type", "ID");
 
-            dgv_Suggestion.AllowUserToOrderColumns = false; 
+            dgv_Suggestion.AllowUserToOrderColumns = false;
 
             changeInTemeratureForHeating();
             changeInTemeratureForCooling();
@@ -624,7 +664,7 @@ namespace KonekaSelectionProgram
             else
             {
                 //GetRecord(string model, double lenght, double width, double height, double changeInTemperature, double fanSpeed)
-                double length = 0, width = 0, height = 0, heatOutput = 0, CoolingCapacity=0, changeInTemperature = 0, changeInTemperatureCooling=0, fanSpeed = 0;
+                double length = 0, width = 0, height = 0, heatOutput = 0, CoolingCapacity = 0, changeInTemperature = 0, changeInTemperatureCooling = 0, fanSpeed = 0;
                 double.TryParse(txt_Length.Text, out length);
                 double.TryParse(txt_Width.Text, out width);
                 double.TryParse(txt_Height.Text, out height);
@@ -644,18 +684,18 @@ namespace KonekaSelectionProgram
                 _InquiryHeatOutput = txt_HeatOutput.Text;
                 _InquiryCooling = txt_CoolingCapacity.Text;
 
-                if (rd_Heating.Checked==true)
+                if (rd_Heating.Checked == true)
                 {
                     StoreProcedure.UpdateData(changeInTemperature, fanSpeed);
                     SearchHeating(dgv_Suggestion, _InquiryModel, length, width, height, heatOutput);
-                  
+
 
                 }
                 else
                 {
                     StoreProcedure.UpdateData(changeInTemperatureCooling, fanSpeed);
                     SearchCooling(dgv_Suggestion, _InquiryModel, length, width, height, CoolingCapacity);
-                    
+
                 }
                 CalculateDifference();
                 if (cmb_GrillsType.SelectedValue.ToString() == "2" || cmb_GrillsType.SelectedValue.ToString() == "3")
@@ -944,7 +984,7 @@ namespace KonekaSelectionProgram
                 string height = dataGridView.Rows[0].Cells["Height1"].Value.ToString();
                 string material = dataGridView.Rows[0].Cells["Material1"].Value.ToString();
                 double price = double.Parse(SQL.ScalarQuery("select " + getPriceBase() + " from GrilleProducts where ID  = " + ID + ""));
-                dgv_OfferTable.Rows.Add(productCount, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling,name, Model, length, width, "", "", material, "", "", Quantity, price, "", ID, "G");
+                dgv_OfferTable.Rows.Add(productCount, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, name, Model, length, width, height, "", material, "", "", Quantity, price, "", ID, "G");
                 productCount++;
             }
         }
@@ -952,12 +992,14 @@ namespace KonekaSelectionProgram
         {
             try
             {
+                CalculateDifference();
+
                 var senderGrid = (DataGridView)sender;
                 int index = e.RowIndex;
                 DataGridViewRow selectedrow = dgv_Suggestion.Rows[index];
                 if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
                 {
-                    double heatOutput = 0,coolingCapacity=0;
+                    double heatOutput = 0, coolingCapacity = 0;
                     //getting required values for suggestions grid
                     int ID = int.Parse(selectedrow.Cells["ID"].Value.ToString());
                     string model = selectedrow.Cells["Model"].Value.ToString();
@@ -972,7 +1014,7 @@ namespace KonekaSelectionProgram
                     string Quantity = selectedrow.Cells["Quantity"].Value.ToString();
                     double price = double.Parse(selectedrow.Cells["Price"].Value.ToString());
                     //adding rows to Offer
-                   dgv_OfferTable.Rows.Add(productCount, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, "", model, length, width, height, color, grilleMaterial, heatOutput, coolingCapacity, Quantity, price, "", ID, "C");
+                    dgv_OfferTable.Rows.Add(productCount, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, "", model, length, width, height, color, grilleMaterial, heatOutput, coolingCapacity, Quantity, price, "", ID, "C");
                     productCount++;
                     //checking grille requirement agian 
                     if (cmb_GrillsType.SelectedValue.ToString() == "2" || cmb_GrillsType.SelectedValue.ToString() == "3")
@@ -1026,6 +1068,8 @@ namespace KonekaSelectionProgram
                 generateNumber();
                 CheckCorrectionAndDiscount();
                 AddtionalPriceBasedOnColor();
+                txt_GrandTotal.Text = getGrandTotal().ToString();
+
             }
         }
 
@@ -1069,6 +1113,8 @@ namespace KonekaSelectionProgram
             calculateTotal();
             CheckCorrectionAndDiscount();
             AddtionalPriceBasedOnColor();
+            txt_GrandTotal.Text = getGrandTotal().ToString();
+
         }
 
         private void btn_Close_Click(object sender, EventArgs e)
@@ -1092,6 +1138,13 @@ namespace KonekaSelectionProgram
                 {
                     dgv_OfferTable.Rows.RemoveAt(index);
                     generateNumber();
+                    updatePricesInSuggestionGrid();
+                    UpdatePriceInOfferTable();
+                    calculateTotal();
+                    CheckCorrectionAndDiscount();
+                    AddtionalPriceBasedOnColor();
+                    txt_GrandTotal.Text = getGrandTotal().ToString();
+
                 }
             }
         }
@@ -1148,7 +1201,8 @@ namespace KonekaSelectionProgram
                     string SuModel = dgv_OfferTable.Rows[i].Cells["SuModel"].Value.ToString();
                     double SuLength = (dgv_OfferTable.Rows[i].Cells["SuLength"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["SuLength"].Value) : 0;
                     double SuWidth = (dgv_OfferTable.Rows[i].Cells["Width2"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["Width2"].Value) : 0;
-                    double SuHeight = (dgv_OfferTable.Rows[i].Cells["Height2"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["Height2"].Value) : 0;
+                    //double SuHeight = (dgv_OfferTable.Rows[i].Cells["Height2"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["Height2"].Value) : 0;
+                    string SuHeight = dgv_OfferTable.Rows[i].Cells["Height2"].Value.ToString();
                     string SuColor = dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString();
                     double SuHeatoutput = (dgv_OfferTable.Rows[i].Cells["SuHeatOutput"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["SuHeatOutput"].Value) : 0;
                     double SuCooling = (dgv_OfferTable.Rows[i].Cells["SuCoolingCapacity"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["SuCoolingCapacity"].Value) : 0;
@@ -1169,10 +1223,10 @@ namespace KonekaSelectionProgram
                     {
                         sl.SetCellValue("Q" + count, SuWidth);
                     }
-                    if (SuHeight != 0)
-                    {
-                        sl.SetCellValue("R" + count, SuHeight);
-                    }
+                    //   if (SuHeight != 0)
+                    // {
+                    sl.SetCellValue("R" + count, SuHeight);
+                    // }
                     if (IsAllDigits(SuColor) && SuColor != "")
                     {
                         sl.SetCellValue("S" + count, Convert.ToDouble(SuColor));
@@ -1243,9 +1297,13 @@ namespace KonekaSelectionProgram
             int no = 1;
             using (SLDocument sl = new SLDocument(Application.StartupPath + "\\template.xlsx"))
             {
-                sl.SetCellValue("O9", "Date: " + DateTime.Now.ToShortDateString());
+                sl.SetCellValue("O9", "Date: " + ProjectData.Date);
                 string grandTotal = getGrandTotal().ToString();
                 sl.SetCellValue("AD14", grandTotal);
+                sl.SetCellValue("P8", ProjectData.OrderNo);
+                sl.SetCellValue("C12", ProjectData.Customer);
+                sl.SetCellValue("C13", ProjectData.ContactPerson);
+                sl.SetCellValue("C14", ProjectData.Project);
 
 
                 for (int i = 0; i < dgv_OfferTable.RowCount; i++)
@@ -1288,7 +1346,7 @@ namespace KonekaSelectionProgram
                     sl.SetCellValue("AB" + count, SuQuantity);
                     sl.SetCellValue("AC" + count, SuPrice);
                     sl.SetCellValue("AD" + count, SuTotal);
-                    
+
                     count++;
                     no++;
                 }
@@ -1345,32 +1403,22 @@ namespace KonekaSelectionProgram
 
         private void btn_SaveAs_Click(object sender, EventArgs e)
         {
-
         }
-
         private void label13_Click(object sender, EventArgs e)
         {
-
         }
-
         private void txt_Incoming_Cooling_TextChanged(object sender, EventArgs e)
         {
             changeInTemeratureForCooling();
-
         }
-
         private void txt_Outgoing_Cooling_TextChanged(object sender, EventArgs e)
         {
             changeInTemeratureForCooling();
-
         }
-
         private void txt_Room_Cooling_TextChanged(object sender, EventArgs e)
         {
             changeInTemeratureForCooling();
-
         }
-
         private void btn_Open_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
@@ -1390,7 +1438,7 @@ namespace KonekaSelectionProgram
                     dgv_OfferTable.Rows.Add(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14], line[15], line[16], line[17]);
                 }
             }
-              
+
         }
 
         private void btn_Save_Click(object sender, EventArgs e)
@@ -1495,18 +1543,22 @@ namespace KonekaSelectionProgram
         {
             CheckCorrectionAndDiscount();
             AddtionalPriceBasedOnColor();
+            txt_GrandTotal.Text = getGrandTotal().ToString();
+
         }
         private void txt_PriceCorrection_TextChanged(object sender, EventArgs e)
         {
             CheckCorrectionAndDiscount();
             AddtionalPriceBasedOnColor();
+            txt_GrandTotal.Text = getGrandTotal().ToString();
+
 
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             // dgv_Suggestion.DataSource = null;
-           DataTable DT = (DataTable)dgv_Suggestion.DataSource;
+            DataTable DT = (DataTable)dgv_Suggestion.DataSource;
             if (DT != null)
                 DT.Clear();
         }
