@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -44,7 +45,6 @@
             this.btn_New = new System.Windows.Forms.Button();
             this.btn_Save = new System.Windows.Forms.Button();
             this.btn_Print = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -153,6 +153,7 @@
             this.rd_Cooling = new System.Windows.Forms.RadioButton();
             this.txt_GrandTotal = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Suggestion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GrilleProducts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_OfferTable)).BeginInit();
@@ -243,25 +244,11 @@
             this.btn_Print.UseVisualStyleBackColor = false;
             this.btn_Print.Click += new System.EventHandler(this.btn_Print_Click);
             // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(21, 123);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(2303, 34);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "INITIAL DATA";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(379, 174);
+            this.label2.Location = new System.Drawing.Point(379, 120);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(129, 22);
@@ -272,7 +259,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(13, 203);
+            this.label3.Location = new System.Drawing.Point(13, 149);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(150, 21);
@@ -283,7 +270,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(123, 242);
+            this.label4.Location = new System.Drawing.Point(123, 188);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 21);
@@ -294,7 +281,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(103, 279);
+            this.label5.Location = new System.Drawing.Point(103, 225);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(66, 21);
@@ -305,7 +292,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(27, 379);
+            this.label6.Location = new System.Drawing.Point(27, 325);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(133, 21);
@@ -316,7 +303,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(123, 343);
+            this.label7.Location = new System.Drawing.Point(123, 289);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 21);
@@ -327,7 +314,7 @@
             // 
             this.v.AutoSize = true;
             this.v.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.v.Location = new System.Drawing.Point(412, 313);
+            this.v.Location = new System.Drawing.Point(412, 259);
             this.v.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.v.Name = "v";
             this.v.Size = new System.Drawing.Size(74, 22);
@@ -338,7 +325,7 @@
             // 
             this.cmb_ConvectorsInstallationType.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_ConvectorsInstallationType.FormattingEnabled = true;
-            this.cmb_ConvectorsInstallationType.Location = new System.Drawing.Point(189, 199);
+            this.cmb_ConvectorsInstallationType.Location = new System.Drawing.Point(189, 145);
             this.cmb_ConvectorsInstallationType.Margin = new System.Windows.Forms.Padding(4);
             this.cmb_ConvectorsInstallationType.Name = "cmb_ConvectorsInstallationType";
             this.cmb_ConvectorsInstallationType.Size = new System.Drawing.Size(513, 29);
@@ -349,7 +336,7 @@
             // 
             this.cmb_Type.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_Type.FormattingEnabled = true;
-            this.cmb_Type.Location = new System.Drawing.Point(189, 238);
+            this.cmb_Type.Location = new System.Drawing.Point(189, 184);
             this.cmb_Type.Margin = new System.Windows.Forms.Padding(4);
             this.cmb_Type.Name = "cmb_Type";
             this.cmb_Type.Size = new System.Drawing.Size(513, 29);
@@ -360,7 +347,7 @@
             // 
             this.cmb_ConvectorsModel.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_ConvectorsModel.FormattingEnabled = true;
-            this.cmb_ConvectorsModel.Location = new System.Drawing.Point(189, 274);
+            this.cmb_ConvectorsModel.Location = new System.Drawing.Point(189, 220);
             this.cmb_ConvectorsModel.Margin = new System.Windows.Forms.Padding(4);
             this.cmb_ConvectorsModel.Name = "cmb_ConvectorsModel";
             this.cmb_ConvectorsModel.Size = new System.Drawing.Size(513, 29);
@@ -370,7 +357,7 @@
             // 
             this.cmb_GrillsMaterialColor.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_GrillsMaterialColor.FormattingEnabled = true;
-            this.cmb_GrillsMaterialColor.Location = new System.Drawing.Point(189, 378);
+            this.cmb_GrillsMaterialColor.Location = new System.Drawing.Point(189, 324);
             this.cmb_GrillsMaterialColor.Margin = new System.Windows.Forms.Padding(4);
             this.cmb_GrillsMaterialColor.Name = "cmb_GrillsMaterialColor";
             this.cmb_GrillsMaterialColor.Size = new System.Drawing.Size(513, 29);
@@ -380,7 +367,7 @@
             // 
             this.cmb_GrillsType.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_GrillsType.FormattingEnabled = true;
-            this.cmb_GrillsType.Location = new System.Drawing.Point(189, 340);
+            this.cmb_GrillsType.Location = new System.Drawing.Point(189, 286);
             this.cmb_GrillsType.Margin = new System.Windows.Forms.Padding(4);
             this.cmb_GrillsType.Name = "cmb_GrillsType";
             this.cmb_GrillsType.Size = new System.Drawing.Size(513, 29);
@@ -391,7 +378,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(379, 426);
+            this.label8.Location = new System.Drawing.Point(379, 372);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(126, 22);
@@ -402,7 +389,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(65, 452);
+            this.label9.Location = new System.Drawing.Point(65, 398);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(103, 21);
@@ -413,7 +400,7 @@
             // 
             this.cmb_Accessory.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_Accessory.FormattingEnabled = true;
-            this.cmb_Accessory.Location = new System.Drawing.Point(189, 452);
+            this.cmb_Accessory.Location = new System.Drawing.Point(189, 398);
             this.cmb_Accessory.Margin = new System.Windows.Forms.Padding(4);
             this.cmb_Accessory.Name = "cmb_Accessory";
             this.cmb_Accessory.Size = new System.Drawing.Size(513, 29);
@@ -422,7 +409,7 @@
             // txt_AccessoryQuantity
             // 
             this.txt_AccessoryQuantity.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_AccessoryQuantity.Location = new System.Drawing.Point(189, 490);
+            this.txt_AccessoryQuantity.Location = new System.Drawing.Point(189, 436);
             this.txt_AccessoryQuantity.Margin = new System.Windows.Forms.Padding(4);
             this.txt_AccessoryQuantity.Name = "txt_AccessoryQuantity";
             this.txt_AccessoryQuantity.Size = new System.Drawing.Size(260, 30);
@@ -433,7 +420,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(847, 295);
+            this.label10.Location = new System.Drawing.Point(847, 241);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(110, 21);
@@ -443,7 +430,7 @@
             // txt_Length
             // 
             this.txt_Length.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_Length.Location = new System.Drawing.Point(973, 293);
+            this.txt_Length.Location = new System.Drawing.Point(973, 239);
             this.txt_Length.Margin = new System.Windows.Forms.Padding(4);
             this.txt_Length.Name = "txt_Length";
             this.txt_Length.Size = new System.Drawing.Size(120, 30);
@@ -454,7 +441,7 @@
             // txt_Width
             // 
             this.txt_Width.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_Width.Location = new System.Drawing.Point(973, 338);
+            this.txt_Width.Location = new System.Drawing.Point(973, 284);
             this.txt_Width.Margin = new System.Windows.Forms.Padding(4);
             this.txt_Width.Name = "txt_Width";
             this.txt_Width.Size = new System.Drawing.Size(120, 30);
@@ -466,7 +453,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(857, 341);
+            this.label11.Location = new System.Drawing.Point(857, 287);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(99, 21);
@@ -476,7 +463,7 @@
             // txt_Height
             // 
             this.txt_Height.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_Height.Location = new System.Drawing.Point(973, 384);
+            this.txt_Height.Location = new System.Drawing.Point(973, 330);
             this.txt_Height.Margin = new System.Windows.Forms.Padding(4);
             this.txt_Height.Name = "txt_Height";
             this.txt_Height.Size = new System.Drawing.Size(120, 30);
@@ -488,7 +475,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(851, 388);
+            this.label12.Location = new System.Drawing.Point(851, 334);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(106, 21);
@@ -498,7 +485,7 @@
             // txt_Color
             // 
             this.txt_Color.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_Color.Location = new System.Drawing.Point(973, 431);
+            this.txt_Color.Location = new System.Drawing.Point(973, 377);
             this.txt_Color.Margin = new System.Windows.Forms.Padding(4);
             this.txt_Color.Name = "txt_Color";
             this.txt_Color.Size = new System.Drawing.Size(120, 30);
@@ -510,7 +497,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(855, 433);
+            this.label13.Location = new System.Drawing.Point(855, 379);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(101, 21);
@@ -521,7 +508,7 @@
             // txt_HeatOutput
             // 
             this.txt_HeatOutput.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_HeatOutput.Location = new System.Drawing.Point(973, 206);
+            this.txt_HeatOutput.Location = new System.Drawing.Point(973, 152);
             this.txt_HeatOutput.Margin = new System.Windows.Forms.Padding(4);
             this.txt_HeatOutput.Name = "txt_HeatOutput";
             this.txt_HeatOutput.Size = new System.Drawing.Size(120, 30);
@@ -534,7 +521,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(804, 207);
+            this.label14.Location = new System.Drawing.Point(804, 153);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(149, 21);
@@ -544,7 +531,7 @@
             // txt_CoolingCapacity
             // 
             this.txt_CoolingCapacity.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_CoolingCapacity.Location = new System.Drawing.Point(973, 251);
+            this.txt_CoolingCapacity.Location = new System.Drawing.Point(973, 197);
             this.txt_CoolingCapacity.Margin = new System.Windows.Forms.Padding(4);
             this.txt_CoolingCapacity.Name = "txt_CoolingCapacity";
             this.txt_CoolingCapacity.Size = new System.Drawing.Size(120, 30);
@@ -556,7 +543,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(752, 252);
+            this.label15.Location = new System.Drawing.Point(752, 198);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(194, 21);
@@ -567,7 +554,7 @@
             // 
             this.txt_HeatingChangeInTemperature.Enabled = false;
             this.txt_HeatingChangeInTemperature.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_HeatingChangeInTemperature.Location = new System.Drawing.Point(1484, 334);
+            this.txt_HeatingChangeInTemperature.Location = new System.Drawing.Point(1484, 280);
             this.txt_HeatingChangeInTemperature.Margin = new System.Windows.Forms.Padding(4);
             this.txt_HeatingChangeInTemperature.Name = "txt_HeatingChangeInTemperature";
             this.txt_HeatingChangeInTemperature.Size = new System.Drawing.Size(129, 30);
@@ -580,7 +567,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(1401, 337);
+            this.label16.Location = new System.Drawing.Point(1401, 283);
             this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(66, 21);
@@ -590,7 +577,7 @@
             // txt_HeatingRoomTemperature
             // 
             this.txt_HeatingRoomTemperature.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_HeatingRoomTemperature.Location = new System.Drawing.Point(1484, 293);
+            this.txt_HeatingRoomTemperature.Location = new System.Drawing.Point(1484, 239);
             this.txt_HeatingRoomTemperature.Margin = new System.Windows.Forms.Padding(4);
             this.txt_HeatingRoomTemperature.Name = "txt_HeatingRoomTemperature";
             this.txt_HeatingRoomTemperature.Size = new System.Drawing.Size(129, 30);
@@ -604,7 +591,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(1236, 299);
+            this.label17.Location = new System.Drawing.Point(1236, 245);
             this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(216, 21);
@@ -614,7 +601,7 @@
             // txt_HeatingOutgoingWaterTemperature
             // 
             this.txt_HeatingOutgoingWaterTemperature.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_HeatingOutgoingWaterTemperature.Location = new System.Drawing.Point(1484, 254);
+            this.txt_HeatingOutgoingWaterTemperature.Location = new System.Drawing.Point(1484, 200);
             this.txt_HeatingOutgoingWaterTemperature.Margin = new System.Windows.Forms.Padding(4);
             this.txt_HeatingOutgoingWaterTemperature.Name = "txt_HeatingOutgoingWaterTemperature";
             this.txt_HeatingOutgoingWaterTemperature.Size = new System.Drawing.Size(129, 30);
@@ -628,7 +615,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(1136, 258);
+            this.label18.Location = new System.Drawing.Point(1136, 204);
             this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(303, 21);
@@ -639,7 +626,7 @@
             // txt_HeatingIncommingWater
             // 
             this.txt_HeatingIncommingWater.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_HeatingIncommingWater.Location = new System.Drawing.Point(1484, 214);
+            this.txt_HeatingIncommingWater.Location = new System.Drawing.Point(1484, 160);
             this.txt_HeatingIncommingWater.Margin = new System.Windows.Forms.Padding(4);
             this.txt_HeatingIncommingWater.Name = "txt_HeatingIncommingWater";
             this.txt_HeatingIncommingWater.Size = new System.Drawing.Size(129, 30);
@@ -653,7 +640,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(1136, 219);
+            this.label19.Location = new System.Drawing.Point(1136, 165);
             this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(302, 21);
@@ -664,7 +651,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(1359, 379);
+            this.label20.Location = new System.Drawing.Point(1359, 325);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(102, 21);
@@ -674,7 +661,7 @@
             // txt_FanSpeed_Cooling
             // 
             this.txt_FanSpeed_Cooling.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_FanSpeed_Cooling.Location = new System.Drawing.Point(1636, 481);
+            this.txt_FanSpeed_Cooling.Location = new System.Drawing.Point(1636, 427);
             this.txt_FanSpeed_Cooling.Margin = new System.Windows.Forms.Padding(4);
             this.txt_FanSpeed_Cooling.Name = "txt_FanSpeed_Cooling";
             this.txt_FanSpeed_Cooling.Size = new System.Drawing.Size(129, 30);
@@ -687,7 +674,7 @@
             // 
             this.txt_DeltaT_Cooling.Enabled = false;
             this.txt_DeltaT_Cooling.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_DeltaT_Cooling.Location = new System.Drawing.Point(1636, 334);
+            this.txt_DeltaT_Cooling.Location = new System.Drawing.Point(1636, 280);
             this.txt_DeltaT_Cooling.Margin = new System.Windows.Forms.Padding(4);
             this.txt_DeltaT_Cooling.Name = "txt_DeltaT_Cooling";
             this.txt_DeltaT_Cooling.Size = new System.Drawing.Size(129, 30);
@@ -698,7 +685,7 @@
             // txt_Room_Cooling
             // 
             this.txt_Room_Cooling.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_Room_Cooling.Location = new System.Drawing.Point(1636, 294);
+            this.txt_Room_Cooling.Location = new System.Drawing.Point(1636, 240);
             this.txt_Room_Cooling.Margin = new System.Windows.Forms.Padding(4);
             this.txt_Room_Cooling.Name = "txt_Room_Cooling";
             this.txt_Room_Cooling.Size = new System.Drawing.Size(129, 30);
@@ -711,7 +698,7 @@
             // txt_Outgoing_Cooling
             // 
             this.txt_Outgoing_Cooling.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_Outgoing_Cooling.Location = new System.Drawing.Point(1636, 255);
+            this.txt_Outgoing_Cooling.Location = new System.Drawing.Point(1636, 201);
             this.txt_Outgoing_Cooling.Margin = new System.Windows.Forms.Padding(4);
             this.txt_Outgoing_Cooling.Name = "txt_Outgoing_Cooling";
             this.txt_Outgoing_Cooling.Size = new System.Drawing.Size(129, 30);
@@ -724,7 +711,7 @@
             // txt_Incoming_Cooling
             // 
             this.txt_Incoming_Cooling.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_Incoming_Cooling.Location = new System.Drawing.Point(1636, 217);
+            this.txt_Incoming_Cooling.Location = new System.Drawing.Point(1636, 163);
             this.txt_Incoming_Cooling.Margin = new System.Windows.Forms.Padding(4);
             this.txt_Incoming_Cooling.Name = "txt_Incoming_Cooling";
             this.txt_Incoming_Cooling.Size = new System.Drawing.Size(129, 30);
@@ -737,7 +724,7 @@
             // txt_PriceCorrection
             // 
             this.txt_PriceCorrection.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.txt_PriceCorrection.Location = new System.Drawing.Point(2024, 252);
+            this.txt_PriceCorrection.Location = new System.Drawing.Point(2024, 198);
             this.txt_PriceCorrection.Margin = new System.Windows.Forms.Padding(4);
             this.txt_PriceCorrection.Name = "txt_PriceCorrection";
             this.txt_PriceCorrection.Size = new System.Drawing.Size(113, 30);
@@ -750,7 +737,7 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(1848, 257);
+            this.label23.Location = new System.Drawing.Point(1848, 203);
             this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(152, 21);
@@ -760,7 +747,7 @@
             // txt_Discount
             // 
             this.txt_Discount.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.txt_Discount.Location = new System.Drawing.Point(2024, 302);
+            this.txt_Discount.Location = new System.Drawing.Point(2024, 248);
             this.txt_Discount.Margin = new System.Windows.Forms.Padding(4);
             this.txt_Discount.Name = "txt_Discount";
             this.txt_Discount.Size = new System.Drawing.Size(113, 30);
@@ -773,7 +760,7 @@
             // 
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(1924, 306);
+            this.label24.Location = new System.Drawing.Point(1924, 252);
             this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(86, 21);
@@ -784,7 +771,7 @@
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(1907, 208);
+            this.label25.Location = new System.Drawing.Point(1907, 154);
             this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(99, 21);
@@ -793,10 +780,11 @@
             // 
             // label26
             // 
-            this.label26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label26.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label26.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.label26.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(21, 549);
+            this.label26.Location = new System.Drawing.Point(21, 494);
             this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(2303, 34);
@@ -806,10 +794,11 @@
             // 
             // label27
             // 
-            this.label27.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label27.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label27.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.label27.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(21, 882);
+            this.label27.Location = new System.Drawing.Point(21, 827);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(2303, 34);
@@ -823,7 +812,8 @@
             this.dgv_Suggestion.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Century Gothic", 10.01739F);
             this.dgv_Suggestion.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgv_Suggestion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgv_Suggestion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_Suggestion.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Suggestion.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -858,7 +848,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_Suggestion.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgv_Suggestion.Location = new System.Drawing.Point(21, 591);
+            this.dgv_Suggestion.Location = new System.Drawing.Point(21, 536);
             this.dgv_Suggestion.Margin = new System.Windows.Forms.Padding(4);
             this.dgv_Suggestion.Name = "dgv_Suggestion";
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -974,7 +964,7 @@
             "Min",
             "Project ",
             "Neto"});
-            this.cmb_Pricebase.Location = new System.Drawing.Point(2024, 202);
+            this.cmb_Pricebase.Location = new System.Drawing.Point(2024, 148);
             this.cmb_Pricebase.Margin = new System.Windows.Forms.Padding(4);
             this.cmb_Pricebase.Name = "cmb_Pricebase";
             this.cmb_Pricebase.Size = new System.Drawing.Size(113, 29);
@@ -987,7 +977,7 @@
             this.button1.BackColor = System.Drawing.Color.White;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button1.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(1484, 414);
+            this.button1.Location = new System.Drawing.Point(1484, 360);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(281, 34);
@@ -1010,7 +1000,7 @@
             this.Width1,
             this.Height1,
             this.Material1});
-            this.dgv_GrilleProducts.Location = new System.Drawing.Point(733, 475);
+            this.dgv_GrilleProducts.Location = new System.Drawing.Point(733, 421);
             this.dgv_GrilleProducts.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgv_GrilleProducts.Name = "dgv_GrilleProducts";
             this.dgv_GrilleProducts.ReadOnly = true;
@@ -1075,7 +1065,9 @@
             this.dgv_OfferTable.AllowUserToDeleteRows = false;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("Century Gothic", 10.01739F);
             this.dgv_OfferTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
-            this.dgv_OfferTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgv_OfferTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_OfferTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_OfferTable.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -1117,7 +1109,7 @@
             dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_OfferTable.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dgv_OfferTable.Location = new System.Drawing.Point(21, 998);
+            this.dgv_OfferTable.Location = new System.Drawing.Point(21, 903);
             this.dgv_OfferTable.Margin = new System.Windows.Forms.Padding(4);
             this.dgv_OfferTable.Name = "dgv_OfferTable";
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -1130,7 +1122,7 @@
             this.dgv_OfferTable.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dataGridViewCellStyle10.Font = new System.Drawing.Font("Century Gothic", 10.01739F);
             this.dgv_OfferTable.RowsDefaultCellStyle = dataGridViewCellStyle10;
-            this.dgv_OfferTable.Size = new System.Drawing.Size(2303, 289);
+            this.dgv_OfferTable.Size = new System.Drawing.Size(2303, 396);
             this.dgv_OfferTable.TabIndex = 73;
             this.dgv_OfferTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_OfferTable_CellContentClick);
             // 
@@ -1285,10 +1277,10 @@
             this.btn_AddAccessory.BackColor = System.Drawing.Color.Silver;
             this.btn_AddAccessory.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btn_AddAccessory.Font = new System.Drawing.Font("Century Gothic", 10.01739F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_AddAccessory.Location = new System.Drawing.Point(457, 489);
+            this.btn_AddAccessory.Location = new System.Drawing.Point(457, 435);
             this.btn_AddAccessory.Margin = new System.Windows.Forms.Padding(4);
             this.btn_AddAccessory.Name = "btn_AddAccessory";
-            this.btn_AddAccessory.Size = new System.Drawing.Size(246, 32);
+            this.btn_AddAccessory.Size = new System.Drawing.Size(245, 34);
             this.btn_AddAccessory.TabIndex = 76;
             this.btn_AddAccessory.Text = "Add";
             this.btn_AddAccessory.UseVisualStyleBackColor = false;
@@ -1308,28 +1300,28 @@
             // 
             // label28
             // 
-            this.label28.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label28.BackColor = System.Drawing.Color.White;
             this.label28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label28.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(21, 964);
+            this.label28.Location = new System.Drawing.Point(21, 868);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(654, 34);
+            this.label28.Size = new System.Drawing.Size(870, 34);
             this.label28.TabIndex = 78;
             this.label28.Text = "Inquiry";
             this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label29
             // 
-            this.label29.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label29.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label29.BackColor = System.Drawing.Color.White;
             this.label29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label29.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(673, 964);
+            this.label29.Location = new System.Drawing.Point(885, 868);
             this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(1651, 34);
+            this.label29.Size = new System.Drawing.Size(1439, 34);
             this.label29.TabIndex = 79;
             this.label29.Text = "Offer";
             this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1344,7 +1336,7 @@
             "                      60%",
             "                      40%",
             "                      20%"});
-            this.cmb_HeatingFanSpeed.Location = new System.Drawing.Point(1484, 373);
+            this.cmb_HeatingFanSpeed.Location = new System.Drawing.Point(1484, 319);
             this.cmb_HeatingFanSpeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmb_HeatingFanSpeed.Name = "cmb_HeatingFanSpeed";
             this.cmb_HeatingFanSpeed.Size = new System.Drawing.Size(281, 29);
@@ -1354,7 +1346,7 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(84, 495);
+            this.label30.Location = new System.Drawing.Point(84, 441);
             this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(88, 21);
@@ -1365,7 +1357,7 @@
             // 
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label31.Location = new System.Drawing.Point(2104, 257);
+            this.label31.Location = new System.Drawing.Point(2104, 203);
             this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(24, 21);
@@ -1376,7 +1368,7 @@
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(2103, 306);
+            this.label32.Location = new System.Drawing.Point(2103, 252);
             this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(24, 21);
@@ -1388,7 +1380,7 @@
             this.rd_Heating.AutoSize = true;
             this.rd_Heating.Checked = true;
             this.rd_Heating.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.rd_Heating.Location = new System.Drawing.Point(1499, 174);
+            this.rd_Heating.Location = new System.Drawing.Point(1499, 120);
             this.rd_Heating.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rd_Heating.Name = "rd_Heating";
             this.rd_Heating.Size = new System.Drawing.Size(97, 25);
@@ -1401,7 +1393,7 @@
             // 
             this.rd_Cooling.AutoSize = true;
             this.rd_Cooling.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            this.rd_Cooling.Location = new System.Drawing.Point(1651, 174);
+            this.rd_Cooling.Location = new System.Drawing.Point(1651, 120);
             this.rd_Cooling.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rd_Cooling.Name = "rd_Cooling";
             this.rd_Cooling.Size = new System.Drawing.Size(96, 25);
@@ -1411,10 +1403,10 @@
             // 
             // txt_GrandTotal
             // 
-            this.txt_GrandTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.txt_GrandTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_GrandTotal.Enabled = false;
             this.txt_GrandTotal.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_GrandTotal.Location = new System.Drawing.Point(2184, 926);
+            this.txt_GrandTotal.Location = new System.Drawing.Point(2182, 910);
             this.txt_GrandTotal.Margin = new System.Windows.Forms.Padding(4);
             this.txt_GrandTotal.Name = "txt_GrandTotal";
             this.txt_GrandTotal.Size = new System.Drawing.Size(140, 30);
@@ -1423,10 +1415,10 @@
             // 
             // label21
             // 
-            this.label21.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(2017, 929);
+            this.label21.Location = new System.Drawing.Point(2020, 916);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(148, 21);
@@ -1434,12 +1426,17 @@
             this.label21.Text = "Grand total, Eur";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(2357, 1315);
+            this.ClientSize = new System.Drawing.Size(2357, 1312);
             this.Controls.Add(this.txt_GrandTotal);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.rd_Cooling);
@@ -1452,7 +1449,6 @@
             this.Controls.Add(this.label29);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label27);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_AddAccessory);
             this.Controls.Add(this.dgv_OfferTable);
             this.Controls.Add(this.dgv_GrilleProducts);
@@ -1514,6 +1510,7 @@
             this.Controls.Add(this.btn_Open);
             this.Controls.Add(this.btn_ProgramData);
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(2373, 1350);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Konveka Selection Program";
             this.Load += new System.EventHandler(this.cmb_ConvectorsType_Load);
@@ -1533,7 +1530,6 @@
         private System.Windows.Forms.Button btn_New;
         private System.Windows.Forms.Button btn_Save;
         private System.Windows.Forms.Button btn_Print;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -1642,6 +1638,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SearchID;
         private System.Windows.Forms.DataGridViewTextBoxColumn SearchType;
         private System.Windows.Forms.DataGridViewButtonColumn Delete;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

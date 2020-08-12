@@ -232,7 +232,7 @@ namespace KonekaSelectionProgram
                         discount = total * (value / 100);
                         total = total - discount;
                         total = Math.Round(total, 2);
-                        dgv_OfferTable.Rows[i].Cells["Price1"].Value = total;
+                        dgv_OfferTable.Rows[i].Cells["Price1"].Value = total.ToString("#.00");
                     }
 
                 }
@@ -254,7 +254,7 @@ namespace KonekaSelectionProgram
                         correction = total * (value / 100);
                         total = total + correction;
                         total = Math.Round(total, 2);
-                        dgv_OfferTable.Rows[i].Cells["Price1"].Value = total;
+                        dgv_OfferTable.Rows[i].Cells["Price1"].Value = total.ToString("#.00");
                     }
 
                 }
@@ -311,7 +311,7 @@ namespace KonekaSelectionProgram
                                 correction = total * (value / 100);
                                 total = total + correction;
                                 total = Math.Round(total, 2);
-                                dgv_OfferTable.Rows[i].Cells["Price1"].Value = total;
+                                dgv_OfferTable.Rows[i].Cells["Price1"].Value = total.ToString("#.00");
                             }
                         }
                     }
@@ -347,7 +347,7 @@ namespace KonekaSelectionProgram
                     double price = double.Parse(dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString());
                     double total = quantity * price;
                     total = Math.Round(total, 2);
-                    dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value = total;
+                    dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value = total.ToString("#.00");
                 }
             }
             catch (Exception ex)
@@ -406,6 +406,7 @@ namespace KonekaSelectionProgram
         {
             DateTime StartDate = new DateTime(2020, 08, 10);
             DateTime EndDate = DateTime.Now;
+            
             int days = (EndDate.Date - StartDate.Date).Days;
             // MessageBox.Show(days.ToString());
             if (days > 30)
@@ -420,7 +421,7 @@ namespace KonekaSelectionProgram
             cmb_Pricebase.SelectedIndex = 0;
             cmb_HeatingFanSpeed.SelectedIndex = 0;
 
-
+            this.WindowState = FormWindowState.Maximized;
 
             //installation type
             Main.fillComboWithoutCondition(cmb_ConvectorsInstallationType, "InstallationType", "IntallationType", "IntallationTypeID");
@@ -1068,7 +1069,7 @@ namespace KonekaSelectionProgram
                 generateNumber();
                 CheckCorrectionAndDiscount();
                 AddtionalPriceBasedOnColor();
-                txt_GrandTotal.Text = getGrandTotal().ToString();
+                txt_GrandTotal.Text = getGrandTotal().ToString("#.00");
 
             }
         }
@@ -1113,7 +1114,7 @@ namespace KonekaSelectionProgram
             calculateTotal();
             CheckCorrectionAndDiscount();
             AddtionalPriceBasedOnColor();
-            txt_GrandTotal.Text = getGrandTotal().ToString();
+            txt_GrandTotal.Text = getGrandTotal().ToString("#.00");
 
         }
 
@@ -1143,7 +1144,7 @@ namespace KonekaSelectionProgram
                     calculateTotal();
                     CheckCorrectionAndDiscount();
                     AddtionalPriceBasedOnColor();
-                    txt_GrandTotal.Text = getGrandTotal().ToString();
+                    txt_GrandTotal.Text = getGrandTotal().ToString("#.00");
 
                 }
             }
@@ -1543,14 +1544,14 @@ namespace KonekaSelectionProgram
         {
             CheckCorrectionAndDiscount();
             AddtionalPriceBasedOnColor();
-            txt_GrandTotal.Text = getGrandTotal().ToString();
+            txt_GrandTotal.Text = getGrandTotal().ToString("#.00");
 
         }
         private void txt_PriceCorrection_TextChanged(object sender, EventArgs e)
         {
             CheckCorrectionAndDiscount();
             AddtionalPriceBasedOnColor();
-            txt_GrandTotal.Text = getGrandTotal().ToString();
+            txt_GrandTotal.Text = getGrandTotal().ToString("#.00");
 
 
         }
@@ -1581,6 +1582,22 @@ namespace KonekaSelectionProgram
         private void cmb_Pricebase_MouseMove(object sender, MouseEventArgs e)
         {
             (sender as ComboBox).SelectionLength = 0;
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            cmb_Pricebase.SelectionLength = 0;
+            cmb_ConvectorsInstallationType.SelectionLength = 0;
+            cmb_Type.SelectionLength = 0;
+            cmb_ConvectorsModel.SelectionLength = 0;
+            cmb_GrillsType.SelectionLength = 0;
+            cmb_GrillsType.SelectionLength = 0;
+            cmb_GrillsMaterialColor.SelectionLength = 0;
+            cmb_Accessory.SelectionLength = 0;
+            cmb_HeatingFanSpeed.SelectionLength = 0;
+            cmb_Pricebase.SelectionLength = 0;
+
 
         }
     }
