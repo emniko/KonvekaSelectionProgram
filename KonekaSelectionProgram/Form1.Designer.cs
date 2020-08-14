@@ -352,6 +352,7 @@
             this.cmb_ConvectorsModel.Name = "cmb_ConvectorsModel";
             this.cmb_ConvectorsModel.Size = new System.Drawing.Size(513, 29);
             this.cmb_ConvectorsModel.TabIndex = 23;
+            this.cmb_ConvectorsModel.SelectedIndexChanged += new System.EventHandler(this.cmb_ConvectorsModel_SelectedIndexChanged);
             // 
             // cmb_GrillsMaterialColor
             // 

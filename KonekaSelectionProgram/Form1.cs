@@ -402,6 +402,14 @@ namespace KonekaSelectionProgram
             }
             else cmb_HeatingFanSpeed.Enabled = false;
         }
+        private void enable_disableCooling(string text)
+        {
+            if (text.Contains("FCH"))
+            {
+                txt_CoolingCapacity.Enabled = true;
+            }
+            else txt_CoolingCapacity.Enabled = false;
+        }
         private void lockApplication()
         {
             DateTime StartDate = new DateTime(2020, 08, 10);
@@ -469,6 +477,7 @@ namespace KonekaSelectionProgram
             }
             //enable / disable fanspeed
             enable_disableFanSpeed(cmb_Type.Text);
+            enable_disableCooling(cmb_ConvectorsModel.Text);
 
         }
         private void cmb_Type_SelectedIndexChanged(object sender, EventArgs e)
@@ -477,6 +486,7 @@ namespace KonekaSelectionProgram
             cmb_ConvectorsModel.Text = "";
             Main.fillCombo(cmb_ConvectorsModel, "Model", "ModelName", "ModelID", "TypeID =" + cmb_Type.SelectedValue + "");
             enable_disableFanSpeed(cmb_Type.Text);
+            enable_disableCooling(cmb_ConvectorsModel.Text);
 
         }
         private void cmb_GrillsType_SelectedIndexChanged(object sender, EventArgs e)
@@ -1598,6 +1608,11 @@ namespace KonekaSelectionProgram
             cmb_HeatingFanSpeed.SelectionLength = 0;
             cmb_Pricebase.SelectionLength = 0;
 
+
+        }
+
+        private void cmb_ConvectorsModel_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
     }

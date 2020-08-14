@@ -33,26 +33,11 @@ namespace KonekaSelectionProgram
         }
         public static SqlConnection Con
         {
-
             get
             {
                 return con;
             }
         }
-
-        //public static string UserName
-        //{
-        //    get
-        //    {
-        //        return userName;
-        //    }
-
-        //    set
-        //    {
-        //        userName = value;
-        //    }
-        //}
-
         public static string ReadCS()
         {
             var lines = "";
@@ -62,7 +47,6 @@ namespace KonekaSelectionProgram
             if (!File.Exists(Path))
             {
                 MessageBox.Show("Unable To Find Connection File ", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             else
             {
