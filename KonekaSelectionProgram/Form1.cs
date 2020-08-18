@@ -428,7 +428,7 @@ namespace KonekaSelectionProgram
             lockApplication();
             cmb_Pricebase.SelectedIndex = 0;
             cmb_HeatingFanSpeed.SelectedIndex = 0;
-
+            cmb_HeatingFanSpeed.SelectedIndex = 2;
             this.WindowState = FormWindowState.Maximized;
 
             //installation type

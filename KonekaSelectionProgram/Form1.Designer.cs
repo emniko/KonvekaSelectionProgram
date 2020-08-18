@@ -1251,7 +1251,6 @@
             this.label28.TabIndex = 78;
             this.label28.Text = "Inquiry";
             this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label28.Click += new System.EventHandler(this.label28_Click);
             // 
             // label29
             // 
@@ -1266,7 +1265,6 @@
             this.label29.TabIndex = 79;
             this.label29.Text = "Offer";
             this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label29.Click += new System.EventHandler(this.label29_Click);
             // 
             // cmb_HeatingFanSpeed
             // 
@@ -1350,7 +1348,6 @@
             this.txt_GrandTotal.Size = new System.Drawing.Size(106, 26);
             this.txt_GrandTotal.TabIndex = 87;
             this.txt_GrandTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txt_GrandTotal.TextChanged += new System.EventHandler(this.txt_GrandTotal_TextChanged);
             // 
             // label21
             // 
@@ -1363,7 +1360,6 @@
             this.label21.TabIndex = 86;
             this.label21.Text = "Grand total, Eur";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label21.Click += new System.EventHandler(this.label21_Click);
             // 
             // timer1
             // 

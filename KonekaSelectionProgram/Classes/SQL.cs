@@ -13,9 +13,13 @@ namespace KonekaSelectionProgram
     class SQL
     {
         // private static String userName = String.Empty;
-        //private static SqlConnection con = new SqlConnection(@"Data Source=" + DataSource + ";Initial Catalog=MobileShop;Integrated Security=True;Pooling=False");// ReadCS().ToString()); 
-        public static String DataSource = ReadCS();
-        private static readonly SqlConnection con = new SqlConnection(DataSource);// ReadCS().ToString()); 
+       // private static SqlConnection con = new SqlConnection(@"Data Source=" + DataSource + ";Initial Catalog=MobileShop;Integrated Security=True;Pooling=False");// ReadCS().ToString()); 
+       // private static SqlConnection con = new SqlConnection(@"Data Source=.\Abdul;
+                          //AttachDbFilename="+Application.StartupPath+"\\KonvekaSelectionProgram.mdf; Integrated Security=True; Connect Timeout=5;User Instance=True");
+
+
+       public static String DataSource = ReadCS();
+       private static readonly SqlConnection con = new SqlConnection(DataSource);// ReadCS().ToString()); 
         public static bool IsServerConnected(string connectionString)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
