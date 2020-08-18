@@ -687,11 +687,11 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(1291, 167);
+            this.label23.Location = new System.Drawing.Point(1333, 166);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(129, 20);
+            this.label23.Size = new System.Drawing.Size(84, 20);
             this.label23.TabIndex = 66;
-            this.label23.Text = "Price Correction";
+            this.label23.Text = "Surcharge";
             // 
             // txt_Discount
             // 
@@ -708,7 +708,7 @@
             // 
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(1348, 207);
+            this.label24.Location = new System.Drawing.Point(1345, 207);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(72, 20);
             this.label24.TabIndex = 64;
@@ -718,7 +718,7 @@
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(1335, 127);
+            this.label25.Location = new System.Drawing.Point(1332, 127);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(85, 20);
             this.label25.TabIndex = 62;
@@ -1314,7 +1314,7 @@
             // 
             this.txt_GrandTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_GrandTotal.Enabled = false;
-            this.txt_GrandTotal.Font = new System.Drawing.Font("Century Gothic", 11.26957F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_GrandTotal.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_GrandTotal.Location = new System.Drawing.Point(1496, 632);
             this.txt_GrandTotal.Name = "txt_GrandTotal";
             this.txt_GrandTotal.Size = new System.Drawing.Size(106, 26);

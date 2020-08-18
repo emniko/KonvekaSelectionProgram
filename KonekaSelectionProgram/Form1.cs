@@ -419,7 +419,7 @@ namespace KonekaSelectionProgram
             // MessageBox.Show(days.ToString());
             if (days > 30)
             {
-                MessageBox.Show("Software has enconter un expected error");
+                MessageBox.Show("Software has encountered an unexpected error!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
         }
