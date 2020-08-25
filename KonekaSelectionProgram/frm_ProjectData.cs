@@ -25,7 +25,7 @@ namespace KonekaSelectionProgram
             ProjectData.Project = txt_Project.Text;
             ProjectData.Customer = txt_Customer.Text;
             ProjectData.ContactPerson = txt_ContactPerson.Text;
-            MessageBox.Show("Data saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Close();
         }
 
         private void frm_ProjectData_Load(object sender, EventArgs e)

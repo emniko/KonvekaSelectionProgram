@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -151,7 +150,6 @@
             this.rd_Cooling = new System.Windows.Forms.RadioButton();
             this.txt_GrandTotal = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Suggestion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_GrilleProducts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_OfferTable)).BeginInit();
@@ -1297,6 +1295,7 @@
             this.rd_Heating.TabStop = true;
             this.rd_Heating.Text = "Heating";
             this.rd_Heating.UseVisualStyleBackColor = true;
+            this.rd_Heating.CheckedChanged += new System.EventHandler(this.rd_Heating_CheckedChanged);
             // 
             // rd_Cooling
             // 
@@ -1309,13 +1308,14 @@
             this.rd_Cooling.TabIndex = 85;
             this.rd_Cooling.Text = "Cooling";
             this.rd_Cooling.UseVisualStyleBackColor = true;
+            this.rd_Cooling.CheckedChanged += new System.EventHandler(this.rd_Cooling_CheckedChanged);
             // 
             // txt_GrandTotal
             // 
             this.txt_GrandTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_GrandTotal.Enabled = false;
             this.txt_GrandTotal.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_GrandTotal.Location = new System.Drawing.Point(1496, 632);
+            this.txt_GrandTotal.Location = new System.Drawing.Point(1496, 631);
             this.txt_GrandTotal.Name = "txt_GrandTotal";
             this.txt_GrandTotal.Size = new System.Drawing.Size(106, 26);
             this.txt_GrandTotal.TabIndex = 87;
@@ -1326,17 +1326,12 @@
             this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(1369, 686);
+            this.label21.Location = new System.Drawing.Point(1367, 634);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(123, 20);
             this.label21.TabIndex = 86;
             this.label21.Text = "Grand total, Eur";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -1519,7 +1514,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Material1;
         private System.Windows.Forms.TextBox txt_GrandTotal;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID2;
         private System.Windows.Forms.DataGridViewTextBoxColumn InLength;
         private System.Windows.Forms.DataGridViewTextBoxColumn InWidth;

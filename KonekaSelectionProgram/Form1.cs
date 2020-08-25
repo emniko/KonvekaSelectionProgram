@@ -196,7 +196,7 @@ namespace KonekaSelectionProgram
 
                 }
                 price = Math.Round(price, 2);
-                dgv_OfferTable.Rows[i].Cells["Price1"].Value = price;
+                dgv_OfferTable.Rows[i].Cells["Price1"].Value = price.ToString("#.00");
             }
 
         }
@@ -274,7 +274,7 @@ namespace KonekaSelectionProgram
                     double quantity = 0;
                     double.TryParse(dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString(), out quantity);
 
-                    if (dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString() != "9016")
+                    if (dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString() == "9016")
                     {
                         TotalQuantity += quantity;
                     }
@@ -304,7 +304,7 @@ namespace KonekaSelectionProgram
                         double quantity = 0;
                         double.TryParse(dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString(), out quantity);
 
-                        if (dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString() != "9016")
+                        if (dgv_OfferTable.Rows[i].Cells["Color"].Value.ToString() == "9016")
                         {
                             if (double.TryParse(dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString(), out total))
                             {
@@ -385,7 +385,7 @@ namespace KonekaSelectionProgram
                 {
                     string ID = dgv_Suggestion.Rows[i].Cells["ID"].Value.ToString();
                     double price = double.Parse(SQL.ScalarQuery("select " + pricebase + " from Convectors	where ID = " + ID + ""));
-                    dgv_Suggestion.Rows[i].Cells["Price"].Value = Math.Round(price, 2);
+                    dgv_Suggestion.Rows[i].Cells["Price"].Value = price.ToString("#.00");
                 }
             }
             catch (Exception)
@@ -426,6 +426,7 @@ namespace KonekaSelectionProgram
         private void cmb_ConvectorsType_Load(object sender, EventArgs e)
         {
             lockApplication();
+            updateSelection();
             cmb_Pricebase.SelectedIndex = 0;
             cmb_HeatingFanSpeed.SelectedIndex = 0;
             cmb_HeatingFanSpeed.SelectedIndex = 2;
@@ -892,7 +893,7 @@ namespace KonekaSelectionProgram
 
         public void SearchCooling(DataGridView dataGridView, string Model, double Length, double Width, double Height, double HeatOutput)
         {
-            SQL.NonScalarQuery("update Convectors set HeatOutput = NULL");
+          //  SQL.NonScalarQuery("update Convectors set HeatOutput = NULL");
 
 
             //1
@@ -1610,10 +1611,40 @@ namespace KonekaSelectionProgram
 
 
         }
-
+        private void updateSelection()
+        {
+            if (rd_Heating.Checked == true)
+            {
+                txt_HeatingIncommingWater.Enabled = true;
+                txt_HeatingOutgoingWaterTemperature.Enabled = true;
+                txt_HeatingRoomTemperature.Enabled = true;
+                txt_Incoming_Cooling.Enabled = false;
+                txt_Outgoing_Cooling.Enabled = false;
+                txt_Room_Cooling.Enabled = false;
+            }
+            else if (rd_Cooling.Checked == true)
+            {
+                txt_HeatingIncommingWater.Enabled = false;
+                txt_HeatingOutgoingWaterTemperature.Enabled = false;
+                txt_HeatingRoomTemperature.Enabled = false;
+                txt_Incoming_Cooling.Enabled = true;
+                txt_Outgoing_Cooling.Enabled = true;
+                txt_Room_Cooling.Enabled = true;
+            }
+        }
         private void cmb_ConvectorsModel_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void rd_Heating_CheckedChanged(object sender, EventArgs e)
+        {
+            updateSelection();
+        }
+
+        private void rd_Cooling_CheckedChanged(object sender, EventArgs e)
+        {
+            updateSelection();
         }
     }
 }
