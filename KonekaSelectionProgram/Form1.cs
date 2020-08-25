@@ -414,7 +414,7 @@ namespace KonekaSelectionProgram
         {
             DateTime StartDate = new DateTime(2020, 08, 10);
             DateTime EndDate = DateTime.Now;
-            
+
             int days = (EndDate.Date - StartDate.Date).Days;
             // MessageBox.Show(days.ToString());
             if (days > 30)
@@ -893,7 +893,7 @@ namespace KonekaSelectionProgram
 
         public void SearchCooling(DataGridView dataGridView, string Model, double Length, double Width, double Height, double HeatOutput)
         {
-          //  SQL.NonScalarQuery("update Convectors set HeatOutput = NULL");
+            //  SQL.NonScalarQuery("update Convectors set HeatOutput = NULL");
 
 
             //1
@@ -993,7 +993,7 @@ namespace KonekaSelectionProgram
                 string name = dataGridView.Rows[0].Cells["Name1"].Value.ToString();
                 string length = dataGridView.Rows[0].Cells["Length1"].Value.ToString();
                 string width = dataGridView.Rows[0].Cells["Width1"].Value.ToString();
-                string height = dataGridView.Rows[0].Cells["Height1"].Value.ToString();
+                string height = "RAL " + dataGridView.Rows[0].Cells["Height1"].Value.ToString();
                 string material = dataGridView.Rows[0].Cells["Material1"].Value.ToString();
                 double price = double.Parse(SQL.ScalarQuery("select " + getPriceBase() + " from GrilleProducts where ID  = " + ID + ""));
                 dgv_OfferTable.Rows.Add(productCount, _InquiryLength, _InquiryWidth, _InquiryHeight, _InquiryHeatOutput, _InquiryCooling, name, Model, length, width, height, "", material, "", "", Quantity, price, "", ID, "G");
@@ -1167,10 +1167,10 @@ namespace KonekaSelectionProgram
             int no = 1;
 
             //For Heating 
-            double IncommingTemperature=75, OutgoingTemperature=65, RoomTemperature = 20;
+            double IncommingTemperature = 75, OutgoingTemperature = 65, RoomTemperature = 20;
             double.TryParse(txt_HeatingIncommingWater.Text, out IncommingTemperature);
             double.TryParse(txt_HeatingOutgoingWaterTemperature.Text, out OutgoingTemperature);
-            double.TryParse(txt_HeatingRoomTemperature.Text ,out RoomTemperature);
+            double.TryParse(txt_HeatingRoomTemperature.Text, out RoomTemperature);
 
             //For Cooling
             double CoolingIncommingTemperature = 7, CoolingOutgoingTemperature = 12, CoolingRoomTemperature = 25;
@@ -1190,11 +1190,25 @@ namespace KonekaSelectionProgram
                 sl.SetCellValue("C14", ProjectData.Project);
 
                 //For Heating 
+                //Offer
+                sl.SetCellValue("E19", IncommingTemperature);
+                sl.SetCellValue("F19", OutgoingTemperature);
+                sl.SetCellValue("G19", RoomTemperature);
+
+                //Suggestion
                 sl.SetCellValue("T19", IncommingTemperature);
                 sl.SetCellValue("U19", OutgoingTemperature);
                 sl.SetCellValue("V19", RoomTemperature);
 
+
+
                 //for Cooling
+                //Offer
+                sl.SetCellValue("I19", CoolingIncommingTemperature);
+                sl.SetCellValue("J19", CoolingOutgoingTemperature);
+                sl.SetCellValue("J19", CoolingRoomTemperature);
+
+                //Suggestion
                 sl.SetCellValue("X19", CoolingIncommingTemperature);
                 sl.SetCellValue("Y19", CoolingOutgoingTemperature);
                 sl.SetCellValue("Z19", CoolingRoomTemperature);
@@ -1207,6 +1221,11 @@ namespace KonekaSelectionProgram
                     double lnHeight = (dgv_OfferTable.Rows[i].Cells["Height3"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["Height3"].Value) : 0;
                     double lnHeatOutput = (dgv_OfferTable.Rows[i].Cells["InHeatOutput"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["InHeatOutput"].Value) : 0;
                     double lnCooling = (dgv_OfferTable.Rows[i].Cells["CoolingCapacityI"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["CoolingCapacityI"].Value) : 0;
+
+
+
+
+
                     if (lnLength != 0)
                     {
                         sl.SetCellValue("B" + count, lnLength);
@@ -1244,9 +1263,11 @@ namespace KonekaSelectionProgram
                     double SuTotal = (dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString() != "") ? Convert.ToDouble(dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value) : 0;
 
 
+
                     sl.SetCellValue("M" + count, no);
                     sl.SetCellValue("N" + count, SuName);
                     sl.SetCellValue("O" + count, SuModel);
+
 
                     if (SuLength != 0)
                     {
@@ -1260,14 +1281,9 @@ namespace KonekaSelectionProgram
                     // {
                     sl.SetCellValue("R" + count, SuHeight);
                     // }
-                    if (IsAllDigits(SuColor) && SuColor != "")
-                    {
-                        sl.SetCellValue("S" + count, Convert.ToDouble(SuColor));
-                    }
-                    else
-                    {
-                        sl.SetCellValue("S" + count, SuColor);
-                    }
+                    if (SuColor == "") SuColor = dgv_OfferTable.Rows[i].Cells["GrilleMaterial"].Value.ToString();
+                    sl.SetCellValue("S" + count, SuColor);
+
                     if (SuHeatoutput != 0)
                     {
                         sl.SetCellValue("T" + count, SuHeatoutput);
@@ -1328,6 +1344,19 @@ namespace KonekaSelectionProgram
         {
             int count = 20;
             int no = 1;
+
+            //For Heating 
+            double IncommingTemperature = 75, OutgoingTemperature = 65, RoomTemperature = 20;
+            double.TryParse(txt_HeatingIncommingWater.Text, out IncommingTemperature);
+            double.TryParse(txt_HeatingOutgoingWaterTemperature.Text, out OutgoingTemperature);
+            double.TryParse(txt_HeatingRoomTemperature.Text, out RoomTemperature);
+
+            //For Cooling
+            double CoolingIncommingTemperature = 7, CoolingOutgoingTemperature = 12, CoolingRoomTemperature = 25;
+            double.TryParse(txt_Incoming_Cooling.Text, out CoolingIncommingTemperature);
+            double.TryParse(txt_Outgoing_Cooling.Text, out CoolingOutgoingTemperature);
+            double.TryParse(txt_Room_Cooling.Text, out CoolingRoomTemperature);
+
             using (SLDocument sl = new SLDocument(Application.StartupPath + "\\template.xlsx"))
             {
                 sl.SetCellValue("O9", "Date: " + ProjectData.Date);
@@ -1338,6 +1367,30 @@ namespace KonekaSelectionProgram
                 sl.SetCellValue("C13", ProjectData.ContactPerson);
                 sl.SetCellValue("C14", ProjectData.Project);
 
+
+                //For Heating 
+                //Offer
+                sl.SetCellValue("E19", IncommingTemperature);
+                sl.SetCellValue("F19", OutgoingTemperature);
+                sl.SetCellValue("G19", RoomTemperature);
+
+                //Suggestion
+                sl.SetCellValue("T19", IncommingTemperature);
+                sl.SetCellValue("U19", OutgoingTemperature);
+                sl.SetCellValue("V19", RoomTemperature);
+
+
+
+                //for Cooling
+                //Offer
+                sl.SetCellValue("I19", CoolingIncommingTemperature);
+                sl.SetCellValue("J19", CoolingOutgoingTemperature);
+                sl.SetCellValue("J19", CoolingRoomTemperature);
+
+                //Suggestion
+                sl.SetCellValue("X19", CoolingIncommingTemperature);
+                sl.SetCellValue("Y19", CoolingOutgoingTemperature);
+                sl.SetCellValue("Z19", CoolingRoomTemperature);
 
                 for (int i = 0; i < dgv_OfferTable.RowCount; i++)
                 {
@@ -1366,6 +1419,7 @@ namespace KonekaSelectionProgram
                     string SuQuantity = dgv_OfferTable.Rows[i].Cells["Qualntity"].Value.ToString();
                     string SuPrice = dgv_OfferTable.Rows[i].Cells["Price1"].Value.ToString();
                     string SuTotal = dgv_OfferTable.Rows[i].Cells["TotalEuro1"].Value.ToString();
+                    if (SuColor == "") SuColor = dgv_OfferTable.Rows[i].Cells["GrilleMaterial"].Value.ToString();
 
                     sl.SetCellValue("M" + count, no);
                     sl.SetCellValue("N" + count, SuName);
