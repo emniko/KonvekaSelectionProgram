@@ -1165,10 +1165,22 @@ namespace KonekaSelectionProgram
         {
             int count = 20;
             int no = 1;
+
+            //For Heating 
+            double IncommingTemperature=75, OutgoingTemperature=65, RoomTemperature = 20;
+            double.TryParse(txt_HeatingIncommingWater.Text, out IncommingTemperature);
+            double.TryParse(txt_HeatingOutgoingWaterTemperature.Text, out OutgoingTemperature);
+            double.TryParse(txt_HeatingRoomTemperature.Text ,out RoomTemperature);
+
+            //For Cooling
+            double CoolingIncommingTemperature = 7, CoolingOutgoingTemperature = 12, CoolingRoomTemperature = 25;
+            double.TryParse(txt_Incoming_Cooling.Text, out CoolingIncommingTemperature);
+            double.TryParse(txt_Outgoing_Cooling.Text, out CoolingOutgoingTemperature);
+            double.TryParse(txt_Room_Cooling.Text, out CoolingRoomTemperature);
+
             using (SLDocument sl = new SLDocument(Application.StartupPath + "\\template.xlsx"))
             {
                 //basic information 
-                //  sl.SetCellValue("O9", "Date: " + DateTime.Now.ToShortDateString());
                 sl.SetCellValue("O9", "Date: " + ProjectData.Date);
                 double grandTotal = getGrandTotal();
                 sl.SetCellValue("AD14", grandTotal);
@@ -1177,6 +1189,15 @@ namespace KonekaSelectionProgram
                 sl.SetCellValue("C13", ProjectData.ContactPerson);
                 sl.SetCellValue("C14", ProjectData.Project);
 
+                //For Heating 
+                sl.SetCellValue("T19", IncommingTemperature);
+                sl.SetCellValue("U19", OutgoingTemperature);
+                sl.SetCellValue("V19", RoomTemperature);
+
+                //for Cooling
+                sl.SetCellValue("X19", CoolingIncommingTemperature);
+                sl.SetCellValue("Y19", CoolingOutgoingTemperature);
+                sl.SetCellValue("Z19", CoolingRoomTemperature);
 
                 for (int i = 0; i < dgv_OfferTable.RowCount; i++)
                 {
